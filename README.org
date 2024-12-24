@@ -1,0 +1,8 @@
+#+title: hexmap.el
+
+An emacs package for drawing hex maps using a text file to specify each tile.
+
+Uses axial coordinates for a practically infinite canvas.
+
+* References
+- https://www.redblobgames.com/grids/hexagons/
