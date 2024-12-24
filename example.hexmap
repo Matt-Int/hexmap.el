@@ -1,0 +1,5 @@
+0,0 plains green
+1,0 mountain gray
+1,1 plains green
+0,0->1,1->1,0
+
