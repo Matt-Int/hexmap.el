@@ -55,6 +55,12 @@ Optionally, add in the COLOUR and WIDTH of the road segment."
 		(smooth-curveto ,(cdr road-1)))
 	  :stroke colour :fill "transparent" :stroke-width width)))
 
+(defun hex-draw-axial-road (svg q r size start end &optional center colour width)
+  "Use Q and R axial coordinates to draw a road on an SVG hex with a given SIZE.
+Road is specified using START and END which is 0->5 starting with 0 at top,
+and incrementing by one going clockwise."
+  (let ((cartesian (hexes-axial-to-cartesian q r size center)))
+    (hex-draw-road svg (car cartesian) (cdr cartesian) size start end colour width)))
 
 (provide 'hex-drawing)
 ;;; hex-drawing.el ends here
