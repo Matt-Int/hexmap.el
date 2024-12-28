@@ -5,25 +5,25 @@
 		village, // the first feature is placed in the center of the hex
 		lair, // subsequent features are offset by a random value within the hex (seeded by the axial coords)
 		],
-	roads: [0->2, 7->2]
+	roads: [0->2, 5->2]
 }
 0,4 {
 	terrain:hills,
 	label: "Hills",
 	features: [lair],
-	roads: [1->7]
+	roads: [1->5]
 }
 3,4 {
 	terrain:hills,
 	label: "Hills",
 	features: [lair],
-	roads: [1->7]
+	roads: [1->5]
 }
 
 2,4 {
 	terrain:hills,
 	label: "Hills",
 	features: [lair],
-	roads: [1->7]
+	roads: [1->5]
 }
 
