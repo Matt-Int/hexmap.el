@@ -31,8 +31,11 @@
   (unless (search-forward-regexp "-?\\([0-9]\\)+,-?\\([0-9]\\)+" nil t)
     (user-error "No more hexes")))
 
-(defun hexmap-move-hex-down ()
-  (interactive))
+(defun hexmap-goto-previous ()
+  "Go to previous hex entry."
+  (interactive)
+  (unless (search-backward-regexp "-?\\([0-9]\\)+,-?\\([0-9]\\)+" nil t)
+    (user-error "No more hexes")))
 
 (defvar hexmap-mode-syntax-table
   (let ((st (make-syntax-table)))
