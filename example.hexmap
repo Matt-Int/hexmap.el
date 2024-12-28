@@ -1,5 +1,29 @@
-0,0 plains green
-1,0 mountain gray
-1,1 plains green
-0,0->1,1->1,0
+0,2 {
+	terrain: mountain,
+	label: "Mountain",
+	features: [
+		village, // the first feature is placed in the center of the hex
+		lair, // subsequent features are offset by a random value within the hex (seeded by the axial coords)
+		],
+	roads: [0->2, 7->2]
+}
+0,4 {
+	terrain:hills,
+	label: "Hills",
+	features: [lair],
+	roads: [1->7]
+}
+3,4 {
+	terrain:hills,
+	label: "Hills",
+	features: [lair],
+	roads: [1->7]
+}
+
+2,4 {
+	terrain:hills,
+	label: "Hills",
+	features: [lair],
+	roads: [1->7]
+}
 
