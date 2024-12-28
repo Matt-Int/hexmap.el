@@ -35,6 +35,22 @@ otherwise use 0."
   `(,(+ center (* size (* (/ 3.0 2) q))) .
     ,(+ center (* size (+ (* (/ (sqrt 3) 2) q) (* (sqrt 3) r)))))))
 
+(defun hexes-flat-side-midpoint (x y size i)
+  "Get the midpoint of the Ith hex side at X, Y with specified SIZE."
+  (let ((corner-0 (hexes-flat-corner x y size (- i 2)))
+	(corner-1 (hexes-flat-corner x y size (1+ (- i 2)))))
+    `(,(/ (+ (car corner-0) (car corner-1)) 2) .
+      ,(/ (+ (cdr corner-0) (cdr corner-1)) 2))))
+
+
+(defun hex-road-coords (x y size start end)
+  "Calculate the coordinates for a road with START and END.
+The road is in the hex centered at X and Y with SIZE."
+  (let ((midpoint-start (hexes-flat-side-midpoint x y size start))
+	(midpoint-end (hexes-flat-side-midpoint x y size end)))
+    `((,(car midpoint-start) . ,(cdr midpoint-start))
+      (,x ,y ,(car midpoint-end) ,(cdr midpoint-end)))))
+
 
 (provide 'hexes)
 ;;; hexes.el ends here
