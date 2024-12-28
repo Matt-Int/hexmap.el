@@ -45,5 +45,16 @@ Example usage: \(let ((svg (svg-create 200 200)))
 	      size
 	      fill label)))
 
+(defun hex-draw-road (svg x y size start end &optional colour width)
+  "Draw a road segment within a hex centered at X, Y with SIZE on SVG.
+Optionally, add in the COLOUR and WIDTH of the road segment."
+  (let ((colour (or colour "brown"))
+	(width (or width 1))
+	(road-1 (hex-road-coords x y size start end)))
+    (svg-path svg `((moveto (,(car road-1)))
+		(smooth-curveto ,(cdr road-1)))
+	  :stroke colour :fill "transparent" :stroke-width width)))
+
+
 (provide 'hex-drawing)
 ;;; hex-drawing.el ends here
