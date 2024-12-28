@@ -14,21 +14,22 @@
 (require 'svg)
 (require 'hexes)
 
-(defun hex-draw (svg x y size &optional fill label)
+(defun hex-draw (svg x y size &optional fill stroke label)
   "Draw a hex in SVG with center of X, Y and specified SIZE.
-Optionally provide the FILL and LABEL for the hex."
+Optionally provide the FILL, STROKE, and LABEL for the hex."
   (let ((fill (or fill "pink"))
-	(label (or label "")))
+	(label (or label ""))
+	(stroke (or stroke "transparent")))
     (svg-polygon svg (hexes-flat-corners x y size)
-		 :stroke-color "none" :fill-color fill)
+		 :stroke-color stroke :fill-color fill)
     (svg-text svg label :x x :y y :font-size (/ size 2) :text-anchor "middle")))
 
 
-(defun hex-draw-axial (svg q r size &optional canvas fill label)
+(defun hex-draw-axial (svg q r size &optional canvas fill stroke label)
   "Draw a hex on an SVG, accepts axial Q and R coordinates.
 Needs to provide the SIZE for converting to cartesian coordinates.
 CANVAS can be provided to calculate the center of 0,0.
-FILL and LABEL can also be provided, see `draw-hex' for details.
+FILL, STROKE, and LABEL can also be provided, see `draw-hex' for details.
 Example usage: \(let ((svg (svg-create 200 200)))
   (hex-draw-axial svg 0 0 20 200 \"green\")
   (hex-draw-axial svg 0 1 20 200 \"green\")
@@ -43,7 +44,7 @@ Example usage: \(let ((svg (svg-create 200 200)))
 	      (+ (/ center 2) (car coords))
 	      (+ (/ center 2) (cdr coords))
 	      size
-	      fill label)))
+	      fill stroke label)))
 
 (defun hex-draw-road (svg x y size start end &optional colour width)
   "Draw a road segment within a hex centered at X, Y with SIZE on SVG.
