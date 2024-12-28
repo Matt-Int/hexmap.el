@@ -37,6 +37,20 @@
   (unless (search-backward-regexp "-?\\([0-9]\\)+,-?\\([0-9]\\)+" nil t)
     (user-error "No more hexes")))
 
+(defun hexmap--extract-axial-coords (hex)
+  "Extract the axial coords from a HEX string."
+  (if (string-match "\\(-?[0-9]+\\)+,\\(-?[0-9]+\\)+" hex)
+      (let ((axial-q (string-to-number (match-string 1 hex)))
+	    (axial-r (string-to-number (match-string 2 hex))))
+	`(,axial-q . ,axial-r))))
+
+(defun hexmap--extract-keyword (hex keyword &optional extract-list)
+  "Extract KEYWORD from HEX string.  If EXTRACT-LIST is nil, treat as single value."
+  (if extract-list
+      (error "Not implemented yet")
+    (if (string-match (format "%s: \\(.*\\)," keyword) hex)
+      (match-string 1 hex))))
+
 (defvar hexmap-mode-syntax-table
   (let ((st (make-syntax-table)))
     ;; use {} for encapsulating blocks.
