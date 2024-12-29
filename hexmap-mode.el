@@ -62,6 +62,15 @@
 	(if (string-match (format "%s: ?\\(.*\\)," keyword) hex)
 	    (match-string 1 hex)))))
   
+(defun hexmap--extract-roads (hex &optional rivers)
+  "Extract road specifications from HEX.
+Optionally set RIVERS to non-nil to parse rivers instead."
+  (let ((roads (hexmap--extract-keyword hex (if rivers "rivers" "roads") t)))
+    (mapcar #'(lambda (road)
+		(apply #'cons
+		       (mapcar #'string-to-number
+			       (string-split road "->"))))
+	    roads)))
 
 (defun hexmap--parse-hex (hex)
   "Parse a HEX specification to construct a Lisp data structure."
