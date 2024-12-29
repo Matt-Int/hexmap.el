@@ -104,6 +104,38 @@ Optionally set RIVERS to non-nil to parse rivers instead."
     (goto-char current)
     result))
 
+(defun hexmap-visualise-buffer ()
+  "Parse the current buffer and produces an SVG."
+  (interactive)
+  (let ((map (hexmap-parse-buffer))
+	(svg (svg-create 800 800)))
+    (mapc #'(lambda (hex)
+	      ;; function to draw main hex here
+	      (hex-draw-axial svg
+			      (car (plist-get hex :axial-coords))
+			      (cdr (plist-get hex :axial-coords))
+			      30
+			      800
+			      "green"
+			      "transparent")
+	      ;; function to draw roads here
+	      (mapc #'(lambda (road)
+			(unless (or (symbolp (car road)) (symbolp (cdr road)))
+			  (hex-draw-axial-road svg
+					       (car (plist-get hex :axial-coords))
+					       (cdr (plist-get hex :axial-coords))
+					       30
+					       (car road)
+					       (cdr road) 400))
+			)
+		    (plist-get hex :roads)))
+	  map)
+    (with-current-buffer (get-buffer-create "*Hexmap: SVG*")
+      (image-mode)
+      (erase-buffer)
+      (insert-image (svg-image svg))
+      (display-buffer "*Hexmap: SVG*"))))
+
 (defvar hexmap-mode-syntax-table
   (let ((st (make-syntax-table)))
     ;; use {} for encapsulating blocks.
@@ -160,7 +192,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 			    ("-?\\([0-9]\\)+,-?\\([0-9]\\)+" . font-lock-type-face)))
   
   ;; Keybinds
-  (local-set-key (kbd "C-c C-c") #'hexmap-mark-hex-at-point)
+  (local-set-key (kbd "C-c C-c") #'hexmap-visualise-buffer)
   (local-set-key (kbd "C-c C-n") #'hexmap-goto-next)
   (local-set-key (kbd "C-c C-p") #'hexmap-goto-previous)
   ;; defaults
