@@ -189,6 +189,9 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 			    ("features:" . font-lock-type-face)
 			    ("roads:" . font-lock-type-face)
 			    ("[0-7]->[0-7]" . font-lock-constant-face)
+			    ("[0-7]->[a-z]+" . font-lock-constant-face)
+			    ("[a-z]+->[0-7]" . font-lock-constant-face)
+			    ("[a-z]+->[a-z]+" . font-lock-constant-face)
 			    ("-?\\([0-9]\\)+,-?\\([0-9]\\)+" . font-lock-type-face)))
   
   ;; Keybinds
