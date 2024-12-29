@@ -91,12 +91,15 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   (interactive)
   (let ((start (point-min))
 	(end (point-max))
+	(current (point))
 	(result))
     (goto-char start)
     (while (hexmap-goto-next)
       (hexmap-mark-hex-at-point)
       (let ((hex (buffer-substring-no-properties (mark) (point))))
 	(setq result (append result `(,(hexmap--parse-hex hex))))))
+    (deactivate-mark)
+    (goto-char current)
     result))
 
 (defvar hexmap-mode-syntax-table
