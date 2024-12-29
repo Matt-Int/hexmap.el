@@ -68,7 +68,9 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   (let ((roads (hexmap--extract-keyword hex (if rivers "rivers" "roads") t)))
     (mapcar #'(lambda (road)
 		(apply #'cons
-		       (mapcar #'string-to-number
+		       (mapcar #'(lambda (item) (if (or (equal item "0") (> (string-to-number item) 0))
+					       (string-to-number item)
+					       (intern item)))
 			       (string-split road "->"))))
 	    roads)))
 
@@ -82,7 +84,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 	  (roads (hexmap--extract-roads hex))
 	  (rivers (hexmap--extract-roads hex t)))
       `(:axial-coords ,axial-coords :terrain ,(intern terrain) :label ,label
-		      :features ,features
+		      :features ,(mapcar #'intern features)
 		      :roads ,roads
 		      :rivers ,rivers))))
 
