@@ -140,6 +140,8 @@
   
   ;; Keybinds
   (local-set-key (kbd "C-c C-c") #'hexmap-mark-hex-at-point)
+  (local-set-key (kbd "C-c C-n") #'hexmap-goto-next)
+  (local-set-key (kbd "C-c C-p") #'hexmap-goto-previous)
   ;; defaults
   (setq-local indent-line-function #'hexmap-mode-indent-line)
   (setq-local tab-width 4)
