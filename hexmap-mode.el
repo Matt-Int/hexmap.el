@@ -47,7 +47,17 @@
 (defun hexmap--extract-keyword (hex keyword &optional extract-list)
   "Extract KEYWORD from HEX string.  If EXTRACT-LIST is nil, treat as single value."
   (if extract-list
-      (error "Not implemented yet")
+      (let ((hex (with-temp-buffer
+		   (insert hex)
+		   (goto-char (point-min))
+		   (search-forward keyword)
+		   (search-forward "[")
+		   (forward-char)
+		   (backward-up-list)
+		   (mark-sexp)
+		   (buffer-substring-no-properties (1- (mark)) (1+ (point))))))
+	(mapcar #'(lambda (item) (intern (string-trim item)))
+		(split-string (replace-regexp-in-string "\\(\n\\|\t\\)" "" hex) ",")))
     (if (string-match (format "%s: \\(.*\\)," keyword) hex)
       (match-string 1 hex))))
 
