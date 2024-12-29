@@ -15,6 +15,7 @@
 (defun hexmap-mark-hex-at-point ()
   "Mark the hex specification at point."
   (interactive)
+  (deactivate-mark)
   (let ((start (save-excursion
 		 (end-of-line)
 		 (search-backward-regexp "-?\\([0-9]\\)+,-?\\([0-9]\\)+" nil t)))
@@ -28,8 +29,7 @@
 (defun hexmap-goto-next ()
   "Go to next hex entry."
   (interactive)
-  (unless (search-forward-regexp "-?\\([0-9]\\)+,-?\\([0-9]\\)+" nil t)
-    (user-error "No more hexes")))
+  (search-forward-regexp "-?\\([0-9]\\)+,-?\\([0-9]\\)+" nil t))
 
 (defun hexmap-goto-previous ()
   "Go to previous hex entry."
