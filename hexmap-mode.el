@@ -78,8 +78,13 @@ Optionally set RIVERS to non-nil to parse rivers instead."
     (let ((axial-coords (hexmap--extract-axial-coords hex))
 	  (terrain (hexmap--extract-keyword hex "terrain"))
 	  (label (replace-regexp-in-string "\"" "" (hexmap--extract-keyword hex "label")))
-	  (features (hexmap--extract-keyword hex "features" t)))
-      `(:axial-coords ,axial-coords :terrain ,(intern terrain) :label ,label :features ,features))))
+	  (features (hexmap--extract-keyword hex "features" t))
+	  (roads (hexmap--extract-roads hex))
+	  (rivers (hexmap--extract-roads hex t)))
+      `(:axial-coords ,axial-coords :terrain ,(intern terrain) :label ,label
+		      :features ,features
+		      :roads ,roads
+		      :rivers ,rivers))))
 
 (defun hexmap-parse-buffer ()
   "Parse the current buffer into a list."
