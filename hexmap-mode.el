@@ -12,6 +12,8 @@
 
 ;;; Code:
 
+(require 'hex-drawing)
+
 (defun hexmap-mark-hex-at-point ()
   "Mark the hex specification at point."
   (interactive)
