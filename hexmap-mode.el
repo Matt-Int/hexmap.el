@@ -70,6 +70,19 @@
 	  (features (hexmap--extract-keyword hex "features" t)))
       `(:axial-coords ,axial-coords :terrain ,(intern terrain) :label ,label :features ,features))))
 
+(defun hexmap-parse-buffer ()
+  "Parse the current buffer into a list."
+  (interactive)
+  (let ((start (point-min))
+	(end (point-max))
+	(result))
+    (goto-char start)
+    (while (hexmap-goto-next)
+      (hexmap-mark-hex-at-point)
+      (let ((hex (buffer-substring-no-properties (mark) (point))))
+	(setq result (append result (hexmap--parse-hex hex)))))
+    result))
+
 (defvar hexmap-mode-syntax-table
   (let ((st (make-syntax-table)))
     ;; use {} for encapsulating blocks.
