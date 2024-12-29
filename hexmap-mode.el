@@ -18,7 +18,7 @@
   (deactivate-mark)
   (let ((start (save-excursion
 		 (end-of-line)
-		 (search-backward-regexp "-?\\([0-9]\\)+,-?\\([0-9]\\)+" nil t)))
+		 (search-backward-regexp "^-?[0-9]+,-?[0-9]+" nil t)))
 	(end (save-excursion
 	       (search-forward "}" nil t))))
     (if (and start end)
