@@ -63,5 +63,37 @@ and incrementing by one going clockwise."
   (let ((cartesian (hexes-axial-to-cartesian q r size center)))
     (hex-draw-road svg (car cartesian) (cdr cartesian) size start end colour width)))
 
+
+(defun hex-draw-feature--draw-unknown (svg x y size &optional feature)
+  "Draw a generic feature icon on SVG at X, Y with specified SIZE."
+  (if feature
+      (user-error (format "Feature: %s does not have a draw-function" feature)))
+  (svg-circle svg x y
+	      (/ size 20) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0))))
+
+(defun hex-draw-feature--draw-village (svg x y size)
+  "Draw a village icon on SVG at X, Y with specified SIZE."
+  (svg-rectangle svg
+		 (- x (/ (/ size 5) 2))
+		 (- y (/ (/ size 5) 2))
+		 (/ size 5) (/ size 5) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0))))
+
+
+(defgroup hexmapping nil
+  "Specifying hexmaps for ttrpgs.")
+
+(defcustom feature-draw-functions '((village . hex-draw-feature--draw-village)
+				    (nil . hex-draw-feature--draw-unknown))
+  "A list of functions for features and how they should be drawn."
+  :group 'hexmapping)
+
+(defun hex-draw-feature (svg x y size &optional feature)
+  "Draw a specified FEATURE on the SVG at X and Y with SIZE."
+  (let ((func (cdr (assoc feature feature-draw-functions)))
+	(unknown-func (cdr (assoc 'nil feature-draw-functions))))
+    (if func
+	(apply func `(,svg ,x, y, size))
+      (apply unknown-func `(,svg ,x ,y ,size ,feature)))))
+
 (provide 'hex-drawing)
 ;;; hex-drawing.el ends here
