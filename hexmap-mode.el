@@ -61,6 +61,15 @@
     (if (string-match (format "%s: \\(.*\\)," keyword) hex)
       (match-string 1 hex))))
 
+(defun hexmap--parse-hex (hex)
+  "Parse a HEX specification to construct a Lisp data structure."
+  (let ((hex (replace-regexp-in-string "//.*" "" hex)))
+    (let ((axial-coords (hexmap--extract-axial-coords hex))
+	  (terrain (hexmap--extract-keyword hex "terrain"))
+	  (label (replace-regexp-in-string "\"" "" (hexmap--extract-keyword hex "label")))
+	  (features (hexmap--extract-keyword hex "features" t)))
+      `(:axial-coords ,axial-coords :terrain ,(intern terrain) :label ,label :features ,features))))
+
 (defvar hexmap-mode-syntax-table
   (let ((st (make-syntax-table)))
     ;; use {} for encapsulating blocks.
