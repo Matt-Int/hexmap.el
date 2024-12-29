@@ -96,7 +96,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
     (while (hexmap-goto-next)
       (hexmap-mark-hex-at-point)
       (let ((hex (buffer-substring-no-properties (mark) (point))))
-	(setq result (append result (hexmap--parse-hex hex)))))
+	(setq result (append result `(,(hexmap--parse-hex hex))))))
     result))
 
 (defvar hexmap-mode-syntax-table
