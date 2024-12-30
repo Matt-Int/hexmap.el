@@ -78,7 +78,7 @@ and incrementing by one going clockwise."
   (if feature
       (message (format "Feature: %s does not have a draw-function" feature)))
   (svg-circle svg x y
-	      (/ size 20) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0))))
+	      (/ size 20) :stroke-color "darkred" :stroke-width (* size (/ 3.0 80.0)))
 
 (defun hex-draw-feature--draw-village (svg x y size)
   "Draw a village icon on SVG at X, Y with specified SIZE."
