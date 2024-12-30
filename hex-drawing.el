@@ -106,5 +106,31 @@ and incrementing by one going clockwise."
 	(apply func `(,svg ,x, y, size))
       (apply unknown-func `(,svg ,x ,y ,size ,feature)))))
 
+(defun hex-feature-offset (q r &optional feature index)
+  (if (and index (> index 0))
+      (let ((offset-direction (degrees-to-radians
+			       (random-with-seed
+				(format "%s%s%s%s" q r feature index)))))
+	`(,(cos offset-direction) . ,(sin offset-direction)))
+    '(0 . 0) ;; return offsets of 0 0 if the index is not provided or is 0
+    ))
+
+(defun hex-feature-axial-to-cartesian-coords (q r size index &optional feature center)
+  (let ((coords (hexes-axial-to-cartesian q r size center))
+	(offset (hex-feature-offset q r feature index)))
+    (let ((offset-coords `(,(+ (car coords) (* (car offset) (/ size 1.5))) .
+			   ,(+ (cdr coords) (* (cdr offset) (/ size 1.5))))))
+      offset-coords)))
+
+(defun hex-draw-feature-axial (svg q r size index &optional feature canvas)
+  "Draw a specified FEATURE on the SVG at hex in Q, R with SIZE.
+INDEX is the nth feature this is in the hex, starting at 0."
+  ;; convert axial to x y
+  (let ((feature-coords (hex-feature-axial-to-cartesian-coords
+			 q r size index feature (/ canvas 2))))
+    (hex-draw-feature svg (car feature-coords) (cdr feature-coords) size
+		      (number-to-string index) feature))
+  )
+
 (provide 'hex-drawing)
 ;;; hex-drawing.el ends here
