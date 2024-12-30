@@ -157,7 +157,6 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 		    (plist-get hex :features))))
 	  map)
     (with-current-buffer (get-buffer-create "*Hexmap: SVG*")
-      (image-mode)
       (erase-buffer)
       (insert-image (svg-image svg))
       (display-buffer "*Hexmap: SVG*"))))
