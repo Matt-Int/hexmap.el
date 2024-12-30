@@ -110,30 +110,53 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   "Parse the current buffer and produces an SVG."
   (interactive)
   (let ((map (hexmap-parse-buffer))
-	(svg (svg-create 800 800)))
+	(svg (svg-create 800 800))
+	(size 80))
     (mapc #'(lambda (hex)
 	      ;; function to draw main hex here
 	      (hex-draw-axial svg
 			      (car (plist-get hex :axial-coords))
 			      (cdr (plist-get hex :axial-coords))
-			      30
+			      size
 			      800
 			      "green"
 			      "transparent")
 	      ;; function to draw roads here
 	      (mapc #'(lambda (road)
-			(unless (or (symbolp (car road)) (symbolp (cdr road)))
+			(let ((start (if (symbolp (car road))
+					 (let ((feature (car road))
+					       (axial (plist-get hex :axial-coords))
+					       (index (cl-position (car road) (plist-get hex :features))))
+					   `(:q ,(car axial) :r ,(cdr axial) :index ,index :feature ,(car road)))
+				       (car road)))
+			      (end (if (symbolp (cdr road))
+				       (let ((feature (cdr road))
+					     (axial (plist-get hex :axial-coords))
+					     (index (cl-position (cdr road) (plist-get hex :features))))
+					 `(:q ,(car axial) :r ,(cdr axial) :index ,index :feature ,(cdr road)))
+				     (cdr road))))
 			  (hex-draw-axial-road svg
 					       (car (plist-get hex :axial-coords))
 					       (cdr (plist-get hex :axial-coords))
-					       30
-					       (car road)
-					       (cdr road) 400))
+					       size
+					       start
+					       end 400))
 			)
-		    (plist-get hex :roads)))
+		    (plist-get hex :roads))
+	      ;; function to draw features
+	      (let ((feature-index 0))
+	      (mapc #'(lambda (feature)
+			(hex-draw-feature-axial svg
+						(car (plist-get hex :axial-coords))
+						(cdr (plist-get hex :axial-coords))
+						size
+						feature-index
+						feature
+						800)
+			(setq feature-index (1+ feature-index)))
+		    (plist-get hex :features))))
 	  map)
     (with-current-buffer (get-buffer-create "*Hexmap: SVG*")
-      (image-mode)
       (erase-buffer)
       (insert-image (svg-image svg))
       (display-buffer "*Hexmap: SVG*"))))

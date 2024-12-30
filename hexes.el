@@ -45,9 +45,25 @@ otherwise use 0."
 
 (defun hex-road-coords (x y size start end)
   "Calculate the coordinates for a road with START and END.
-The road is in the hex centered at X and Y with SIZE."
-  (let ((midpoint-start (hexes-flat-side-midpoint x y size start))
-	(midpoint-end (hexes-flat-side-midpoint x y size end)))
+The road is in the hex centered at X and Y with SIZE.
+If START or END is a property list with :q :r :index :feature parameters
+then get that point using the seeded random offset"
+  (let ((midpoint-start (if (listp start)
+			    (let ((start-offset (hex-feature-offset (plist-get start :q)
+								    (plist-get start :r)
+								    (plist-get start :feature)
+								    (plist-get start :index))))
+			      `(,(+ x (* (car start-offset) (/ size 1.5))) .
+				,(+ y (* (cdr start-offset) (/ size 1.5)))))
+			  (hexes-flat-side-midpoint x y size start)))
+	(midpoint-end (if (listp end)
+			  (let ((end-offset (hex-feature-offset (plist-get end :q)
+								(plist-get end :r)
+								(plist-get end :feature)
+								(plist-get end :index))))
+			    `(,(+ x (* (car end-offset) (/ size 1.5))) .
+			      ,(+ y (* (cdr end-offset) (/ size 1.5)))))
+			(hexes-flat-side-midpoint x y size end))))
     `((,(car midpoint-start) . ,(cdr midpoint-start))
       (,x ,y ,(car midpoint-end) ,(cdr midpoint-end)))))
 

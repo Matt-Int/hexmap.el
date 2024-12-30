@@ -14,6 +14,15 @@
 (require 'svg)
 (require 'hexes)
 
+(defun random-with-seed (seed)
+  "Generate a random number with SEED and outputs a degree from 0 to 365.
+Runs \(random t) at the end to avoid reproducible numbers elsewhere."
+  (if (numberp seed) (setq seed (number-to-string seed)))
+  (let ((seed-result (random seed))
+	(result-degrees (random 365))
+	(result-reseeded (random t)))
+    result-degrees))
+
 (defun hex-draw (svg x y size &optional fill stroke label)
   "Draw a hex in SVG with center of X, Y and specified SIZE.
 Optionally provide the FILL, STROKE, and LABEL for the hex."
@@ -62,6 +71,66 @@ Road is specified using START and END which is 0->5 starting with 0 at top,
 and incrementing by one going clockwise."
   (let ((cartesian (hexes-axial-to-cartesian q r size center)))
     (hex-draw-road svg (car cartesian) (cdr cartesian) size start end colour width)))
+
+
+(defun hex-draw-feature--draw-unknown (svg x y size &optional feature)
+  "Draw a generic feature icon on SVG at X, Y with specified SIZE."
+  (if feature
+      (message (format "Feature: %s does not have a draw-function" feature)))
+  (svg-circle svg x y
+	      (/ size 20) :stroke-color "darkred" :stroke-width (* size (/ 3.0 80.0)))
+  (svg-text svg label :x x :y (- y (/ size 20)) :font-size (/ size 6) :text-anchor "middle"))
+
+(defun hex-draw-feature--draw-village (svg x y size)
+  "Draw a village icon on SVG at X, Y with specified SIZE."
+  (svg-rectangle svg
+		 (- x (/ (/ size 5) 2))
+		 (- y (/ (/ size 5) 2))
+		 (/ size 5) (/ size 5) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0)))
+  (svg-text svg label :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
+
+
+(defgroup hexmapping nil
+  "Specifying hexmaps for ttrpgs.")
+
+(defcustom feature-draw-functions '((village . hex-draw-feature--draw-village)
+				    (nil . hex-draw-feature--draw-unknown))
+  "A list of functions for features and how they should be drawn."
+  :group 'hexmapping)
+
+(defun hex-draw-feature (svg x y size label &optional feature)
+  "Draw a specified FEATURE on the SVG at X and Y with SIZE."
+  (let ((func (cdr (assoc feature feature-draw-functions)))
+	(unknown-func (cdr (assoc 'nil feature-draw-functions))))
+    (if func
+	(apply func `(,svg ,x, y, size))
+      (apply unknown-func `(,svg ,x ,y ,size ,feature)))))
+
+(defun hex-feature-offset (q r &optional feature index)
+  (if (and index (> index 0))
+      (let ((offset-direction (degrees-to-radians
+			       (random-with-seed
+				(format "%s%s%s%s" q r feature index)))))
+	`(,(cos offset-direction) . ,(sin offset-direction)))
+    '(0 . 0) ;; return offsets of 0 0 if the index is not provided or is 0
+    ))
+
+(defun hex-feature-axial-to-cartesian-coords (q r size index &optional feature center)
+  (let ((coords (hexes-axial-to-cartesian q r size center))
+	(offset (hex-feature-offset q r feature index)))
+    (let ((offset-coords `(,(+ (car coords) (* (car offset) (/ size 1.5))) .
+			   ,(+ (cdr coords) (* (cdr offset) (/ size 1.5))))))
+      offset-coords)))
+
+(defun hex-draw-feature-axial (svg q r size index &optional feature canvas)
+  "Draw a specified FEATURE on the SVG at hex in Q, R with SIZE.
+INDEX is the nth feature this is in the hex, starting at 0."
+  ;; convert axial to x y
+  (let ((feature-coords (hex-feature-axial-to-cartesian-coords
+			 q r size index feature (/ canvas 2))))
+    (hex-draw-feature svg (car feature-coords) (cdr feature-coords) size
+		      (number-to-string index) feature))
+  )
 
 (provide 'hex-drawing)
 ;;; hex-drawing.el ends here
