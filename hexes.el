@@ -67,6 +67,21 @@ then get that point using the seeded random offset"
     `((,(car midpoint-start) . ,(cdr midpoint-start))
       (,x ,y ,(car midpoint-end) ,(cdr midpoint-end)))))
 
+(defun hex-feature-offset (q r &optional feature index)
+  (if (and index (> index 0))
+      (let ((offset-direction (degrees-to-radians
+			       (random-with-seed
+				(format "%s%s%s%s" q r feature index)))))
+	`(,(cos offset-direction) . ,(sin offset-direction)))
+    '(0 . 0) ;; return offsets of 0 0 if the index is not provided or is 0
+    ))
+
+(defun hex-feature-axial-to-cartesian-coords (q r size index &optional feature center)
+  (let ((coords (hexes-axial-to-cartesian q r size center))
+	(offset (hex-feature-offset q r feature index)))
+    (let ((offset-coords `(,(+ (car coords) (* (car offset) (/ size 1.5))) .
+			   ,(+ (cdr coords) (* (cdr offset) (/ size 1.5))))))
+      offset-coords)))
 
 (provide 'hexes)
 ;;; hexes.el ends here
