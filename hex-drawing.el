@@ -76,7 +76,7 @@ and incrementing by one going clockwise."
 (defun hex-draw-feature--draw-unknown (svg x y size &optional feature)
   "Draw a generic feature icon on SVG at X, Y with specified SIZE."
   (if feature
-      (user-error (format "Feature: %s does not have a draw-function" feature)))
+      (message (format "Feature: %s does not have a draw-function" feature)))
   (svg-circle svg x y
 	      (/ size 20) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0))))
 
