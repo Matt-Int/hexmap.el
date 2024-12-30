@@ -14,6 +14,15 @@
 (require 'svg)
 (require 'hexes)
 
+(defun random-with-seed (seed)
+  "Generate a random number with SEED and outputs a degree from 0 to 365.
+Runs \(random t) at the end to avoid reproducible numbers elsewhere."
+  (if (numberp seed) (setq seed (number-to-string seed)))
+  (let ((seed-result (random seed))
+	(result-degrees (random 365))
+	(result-reseeded (random t)))
+    result-degrees))
+
 (defun hex-draw (svg x y size &optional fill stroke label)
   "Draw a hex in SVG with center of X, Y and specified SIZE.
 Optionally provide the FILL, STROKE, and LABEL for the hex."
