@@ -79,13 +79,15 @@ and incrementing by one going clockwise."
       (message (format "Feature: %s does not have a draw-function" feature)))
   (svg-circle svg x y
 	      (/ size 20) :stroke-color "darkred" :stroke-width (* size (/ 3.0 80.0)))
+  (svg-text svg label :x x :y (- y (/ size 20)) :font-size (/ size 6) :text-anchor "middle"))
 
 (defun hex-draw-feature--draw-village (svg x y size)
   "Draw a village icon on SVG at X, Y with specified SIZE."
   (svg-rectangle svg
 		 (- x (/ (/ size 5) 2))
 		 (- y (/ (/ size 5) 2))
-		 (/ size 5) (/ size 5) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0))))
+		 (/ size 5) (/ size 5) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0)))
+  (svg-text svg label :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
 
 
 (defgroup hexmapping nil
@@ -96,7 +98,7 @@ and incrementing by one going clockwise."
   "A list of functions for features and how they should be drawn."
   :group 'hexmapping)
 
-(defun hex-draw-feature (svg x y size &optional feature)
+(defun hex-draw-feature (svg x y size label &optional feature)
   "Draw a specified FEATURE on the SVG at X and Y with SIZE."
   (let ((func (cdr (assoc feature feature-draw-functions)))
 	(unknown-func (cdr (assoc 'nil feature-draw-functions))))
