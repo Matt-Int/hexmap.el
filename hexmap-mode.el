@@ -82,10 +82,14 @@ Optionally set RIVERS to non-nil to parse rivers instead."
     (let ((axial-coords (hexmap--extract-axial-coords hex))
 	  (terrain (hexmap--extract-keyword hex "terrain"))
 	  (label (replace-regexp-in-string "\"" "" (hexmap--extract-keyword hex "label")))
+	  (biome (hexmap--extract-keyword hex "biome"))
 	  (features (hexmap--extract-keyword hex "features" t))
 	  (roads (hexmap--extract-roads hex))
 	  (rivers (hexmap--extract-roads hex t)))
-      `(:axial-coords ,axial-coords :terrain ,(intern terrain) :label ,label
+      `(:axial-coords ,axial-coords
+		      :biome ,(intern biome)
+		      :terrain ,(intern terrain)
+		      :label ,label
 		      :features ,(mapcar #'intern features)
 		      :roads ,roads
 		      :rivers ,rivers))))
@@ -209,6 +213,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   ;; Syntax highlighting
   (font-lock-add-keywords nil
 			  '(("terrain:" . font-lock-doc-face)
+			    ("biome:" . font-lock-doc-face)
 			    ("rivers:" . font-lock-doc-face)
 			    ("label:" . font-lock-string-face)
 			    ("features:" . font-lock-type-face)
