@@ -123,13 +123,24 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 			      "transparent")
 	      ;; function to draw roads here
 	      (mapc #'(lambda (road)
-			(unless (or (symbolp (car road)) (symbolp (cdr road)))
+			(let ((start (if (symbolp (car road))
+					 (let ((feature (car road))
+					       (axial (plist-get hex :axial-coords))
+					       (index (cl-position (car road) (plist-get hex :features))))
+					   `(:q ,(car axial) :r ,(cdr axial) :index ,index :feature ,(car road)))
+				       (car road)))
+			      (end (if (symbolp (cdr road))
+				       (let ((feature (cdr road))
+					     (axial (plist-get hex :axial-coords))
+					     (index (cl-position (cdr road) (plist-get hex :features))))
+					 `(:q ,(car axial) :r ,(cdr axial) :index ,index :feature ,(cdr road)))
+				     (cdr road))))
 			  (hex-draw-axial-road svg
 					       (car (plist-get hex :axial-coords))
 					       (cdr (plist-get hex :axial-coords))
-					       (car road)
-					       (cdr road) 400))
 					       size
+					       start
+					       end 400))
 			)
 		    (plist-get hex :roads))
 	      ;; function to draw features
