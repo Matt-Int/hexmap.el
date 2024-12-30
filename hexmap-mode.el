@@ -110,13 +110,14 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   "Parse the current buffer and produces an SVG."
   (interactive)
   (let ((map (hexmap-parse-buffer))
-	(svg (svg-create 800 800)))
+	(svg (svg-create 800 800))
+	(size 80))
     (mapc #'(lambda (hex)
 	      ;; function to draw main hex here
 	      (hex-draw-axial svg
 			      (car (plist-get hex :axial-coords))
 			      (cdr (plist-get hex :axial-coords))
-			      30
+			      size
 			      800
 			      "green"
 			      "transparent")
@@ -126,9 +127,9 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 			  (hex-draw-axial-road svg
 					       (car (plist-get hex :axial-coords))
 					       (cdr (plist-get hex :axial-coords))
-					       30
 					       (car road)
 					       (cdr road) 400))
+					       size
 			)
 		    (plist-get hex :roads))
 	      ;; function to draw features
@@ -137,7 +138,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 			(hex-draw-feature-axial svg
 						(car (plist-get hex :axial-coords))
 						(cdr (plist-get hex :axial-coords))
-						30
+						size
 						feature-index
 						feature
 						800)
