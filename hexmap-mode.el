@@ -130,7 +130,19 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 					       (car road)
 					       (cdr road) 400))
 			)
-		    (plist-get hex :roads)))
+		    (plist-get hex :roads))
+	      ;; function to draw features
+	      (let ((feature-index 0))
+	      (mapc #'(lambda (feature)
+			(hex-draw-feature-axial svg
+						(car (plist-get hex :axial-coords))
+						(cdr (plist-get hex :axial-coords))
+						30
+						feature-index
+						feature
+						800)
+			(setq feature-index (1+ feature-index)))
+		    (plist-get hex :features))))
 	  map)
     (with-current-buffer (get-buffer-create "*Hexmap: SVG*")
       (image-mode)
