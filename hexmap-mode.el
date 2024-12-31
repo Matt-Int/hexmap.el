@@ -29,6 +29,17 @@
   :group 'hexmapping)
 
 
+(defcustom biome-highlight-colours '((arctic . "gray")
+				     (temperate . "darkgreen")
+				     (tundra . "green")
+				     (arid . "#b3b300")
+				     (tropical . "#004235")
+				     (ocean . "lightblue")
+				     (lake . "darkblue")
+				     (nil . "black"))
+  "A list of hex colours to be used for different biomes."
+  :group 'hexmapping)
+
 (defun hexmap-mark-hex-at-point ()
   "Mark the hex specification at point."
   (interactive)
