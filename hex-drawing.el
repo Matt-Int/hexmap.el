@@ -122,6 +122,24 @@ Provide BIOME to get the matching `biome-highlight-colours'."
 				    (nil . hex-draw-terrain--draw-blank))
   "A list of functions for terrains and how they should be drawn."
   :group 'hexmapping)
+
+(defun hex-draw-terrain (svg x y size &optional terrain biome)
+  "Draw a specified TERRAIN on the SVG at X and Y with SIZE."
+  (let ((func (cdr (assoc terrain terrain-draw-functions)))
+	(unknown-func (cdr (assoc 'nil terrain-draw-functions))))
+    (if func
+	(apply func `(,svg ,x, y, size, biome))
+      (apply unknown-func `(,svg ,x ,y ,size ,terrain)))))
+
+(defun hex-draw-terrain-axial (svg q r size &optional canvas terrain biome)
+  "Draw a specified TERRAIN on the SVG at Q and R with SIZE.
+CANVAS is the size of the svg image, TERRAIN is the terrain to paint,
+and biome determines the highlight colour, see `hex-draw-terrain'."
+  (let ((hex-coords (hexes-axial-to-cartesian q r size (/ canvas 2))))
+	(hex-draw-terrain svg (car hex-coords) (cdr hex-coords) size
+			  terrain biome)))
+
+
 (defun hex-draw-feature (svg x y size label &optional feature)
   "Draw a specified FEATURE on the SVG at X and Y with SIZE."
   (let ((func (cdr (assoc feature feature-draw-functions)))
