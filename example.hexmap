@@ -1,6 +1,6 @@
 0,0 {
-	terrain: mountain,
-	label: "Mountain",
+	terrain: plains,
+	biome: temperate,
 	features: [
 		village, // the first feature is placed in the center of the hex
 		lair // subsequent features are offset by a random value within the hex (seeded by the axial coords)
@@ -9,36 +9,33 @@
 	roads: [1->3, 2->3, 3->5,village->lair, lair->1, lair->0]
 }
 1,0 {
-	terrain: hills,
-	label: "Hills",
-	features: [lair, village],
-	roads: [5->0]
-}
+	terrain: waves,
+	biome: ocean,
 0,-1 {
 	terrain: hills,
+	biome: arctic,
 	label: "Hills",
 	features: [city, village, hamlet],
 	roads: [4->2,0->4, 1->city,city->village, city->hamlet, hamlet->village, hamlet->3]
 }
 0,1 {
 	terrain: hills,
-	label: "Hills",
+	biome: tropical,
 	features: [lair, village],
 	roads: [0->5, village->lair, village->0, lair->0]
 }
 -1,0 {
+	biome: tundra,
 	terrain: hills,
-	label: "Hills",
 	roads: [2->1, 2->3]
 }
 1,-1 {
-	terrain: hills,
-	label: "Hills",
-	roads: [3->4,3->5]
+	biome: ocean,
+	terrain: waves,
 }
 -1,1 {
+	biome: arid,
 	terrain: hills,
-	label: "Hills",
 	roads: [0->2]
 }
 

@@ -14,6 +14,32 @@
 
 (require 'hex-drawing)
 
+(defgroup hexmapping nil
+  "Specifying hexmaps for ttrpgs.")
+
+(defcustom biome-colours '((arctic . "white")
+			   (temperate . "green")
+			   (tundra . "darkgreen")
+			   (arid . "yellow")
+			   (tropical . "#00755e")
+			   (ocean . "blue")
+			   (lake . "lightblue")
+			   (nil . "pink"))
+  "A list of hex colours to be used for different biomes."
+  :group 'hexmapping)
+
+
+(defcustom biome-highlight-colours '((arctic . "gray")
+				     (temperate . "darkgreen")
+				     (tundra . "green")
+				     (arid . "#b3b300")
+				     (tropical . "#004235")
+				     (ocean . "lightblue")
+				     (lake . "darkblue")
+				     (nil . "black"))
+  "A list of hex colours to be used for different biomes."
+  :group 'hexmapping)
+
 (defun hexmap-mark-hex-at-point ()
   "Mark the hex specification at point."
   (interactive)
@@ -81,12 +107,16 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   (let ((hex (replace-regexp-in-string "//.*" "" hex)))
     (let ((axial-coords (hexmap--extract-axial-coords hex))
 	  (terrain (hexmap--extract-keyword hex "terrain"))
-	  (label (replace-regexp-in-string "\"" "" (hexmap--extract-keyword hex "label")))
+	  (biome (hexmap--extract-keyword hex "biome"))
+	  (label (hexmap--extract-keyword hex "label"))
 	  (features (hexmap--extract-keyword hex "features" t))
 	  (roads (hexmap--extract-roads hex))
 	  (rivers (hexmap--extract-roads hex t)))
-      `(:axial-coords ,axial-coords :terrain ,(intern terrain) :label ,label
-		      :features ,(mapcar #'intern features)
+      `(:axial-coords ,axial-coords
+		      :biome ,(if biome (intern biome))
+		      :terrain ,(if terrain (intern terrain))
+		      :label ,(if label (replace-regexp-in-string "\"" "" label))
+		      :features ,(if features (mapcar #'intern features))
 		      :roads ,roads
 		      :rivers ,rivers))))
 
@@ -119,8 +149,15 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 			      (cdr (plist-get hex :axial-coords))
 			      size
 			      800
-			      "green"
-			      "transparent")
+			      (cdr (assoc (plist-get hex :biome) biome-colours))
+			      "black")
+	      ;; function to draw terrain
+	      (hex-draw-terrain-axial svg
+				      (car (plist-get hex :axial-coords))
+				      (cdr (plist-get hex :axial-coords))
+				      size 800
+				      (plist-get hex :terrain)
+				      (plist-get hex :biome))
 	      ;; function to draw roads here
 	      (mapc #'(lambda (road)
 			(let ((start (if (symbolp (car road))
@@ -209,6 +246,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   ;; Syntax highlighting
   (font-lock-add-keywords nil
 			  '(("terrain:" . font-lock-doc-face)
+			    ("biome:" . font-lock-doc-face)
 			    ("rivers:" . font-lock-doc-face)
 			    ("label:" . font-lock-string-face)
 			    ("features:" . font-lock-type-face)

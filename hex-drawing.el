@@ -26,9 +26,9 @@ Runs \(random t) at the end to avoid reproducible numbers elsewhere."
 (defun hex-draw (svg x y size &optional fill stroke label)
   "Draw a hex in SVG with center of X, Y and specified SIZE.
 Optionally provide the FILL, STROKE, and LABEL for the hex."
-  (let ((fill (or fill "pink"))
+  (let ((fill (or fill "transparent"))
 	(label (or label ""))
-	(stroke (or stroke "transparent")))
+	(stroke (or stroke "black")))
     (svg-polygon svg (hexes-flat-corners x y size)
 		 :stroke-color stroke :fill-color fill)
     (svg-text svg label :x x :y y :font-size (/ size 2) :text-anchor "middle")))
@@ -89,14 +89,56 @@ and incrementing by one going clockwise."
 		 (/ size 5) (/ size 5) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0)))
   (svg-text svg label :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
 
-
-(defgroup hexmapping nil
-  "Specifying hexmaps for ttrpgs.")
-
 (defcustom feature-draw-functions '((village . hex-draw-feature--draw-village)
 				    (nil . hex-draw-feature--draw-unknown))
   "A list of functions for features and how they should be drawn."
   :group 'hexmapping)
+
+(defun hex-draw-terrain--draw-blank (svg x y size &optional terrain)
+  "Draw no TERRAIN on SVG at X, Y with given SIZE.
+This function does nothing on purpose and just takes the appropriate input."
+  (message "Terrain: %s does not have a draw-function" terrain))
+
+(defun hex-draw-terrain--draw-hills (svg x y size &optional biome)
+  "Draw a hill terrain symbol on SVG at X,Y at given SIZE.
+Provide BIOME to get the matching `biome-highlight-colours'."
+  (let ((xr (* x (/ 35.0 200)))
+	(yr (* y (/ 100.0 200)))
+	(colour (if biome (cdr (assoc biome biome-highlight-colours)) "white")))
+    (svg-path svg `((moveto ((,x . ,y)))
+		    (elliptical-arc ((,(* size (/ 35.0 80)) ,(* size (/ 100.0 80)) ,(* size (/ 40.0 80)) 0 :sweep t))))
+	      :fill "transparent" :stroke colour :relative t :stroke-width (* size (/ 4.0 80)))
+    (svg-path svg `((moveto ((,x . ,y)))
+		    (moveto ((,(* size (/ -20.0 80)) . ,(* size (/ -20.0 80)))) :relative t)
+		    (elliptical-arc ((,(* size (/ 35.0 80)) ,(* size (/ 100.0 80)) ,(* size (/ 40.0 80)) 0 :sweep t))))
+	      :fill "transparent" :stroke colour :relative t :stroke-width (* size (/ 4.0 80)))
+    (svg-path svg `((moveto ((,x . ,y)))
+		    (moveto ((,(* size (/ -50.0 80)) . 0)) :relative t)
+		    (elliptical-arc ((,(* size (/ 35.0 80)) ,(* size (/ 100.0 80)) ,(* size (/ 40.0 80))
+				      ,(* size (/ -5.0 80)) :sweep t))))
+	      :fill "transparent" :stroke colour :relative t :stroke-width (* size (/ 4.0 80)))))
+
+(defcustom terrain-draw-functions '((hills . hex-draw-terrain--draw-hills)
+				    (nil . hex-draw-terrain--draw-blank))
+  "A list of functions for terrains and how they should be drawn."
+  :group 'hexmapping)
+
+(defun hex-draw-terrain (svg x y size &optional terrain biome)
+  "Draw a specified TERRAIN on the SVG at X and Y with SIZE."
+  (let ((func (cdr (assoc terrain terrain-draw-functions)))
+	(unknown-func (cdr (assoc 'nil terrain-draw-functions))))
+    (if func
+	(apply func `(,svg ,x, y, size, biome))
+      (apply unknown-func `(,svg ,x ,y ,size ,terrain)))))
+
+(defun hex-draw-terrain-axial (svg q r size &optional canvas terrain biome)
+  "Draw a specified TERRAIN on the SVG at Q and R with SIZE.
+CANVAS is the size of the svg image, TERRAIN is the terrain to paint,
+and biome determines the highlight colour, see `hex-draw-terrain'."
+  (let ((hex-coords (hexes-axial-to-cartesian q r size (/ canvas 2))))
+	(hex-draw-terrain svg (car hex-coords) (cdr hex-coords) size
+			  terrain biome)))
+
 
 (defun hex-draw-feature (svg x y size label &optional feature)
   "Draw a specified FEATURE on the SVG at X and Y with SIZE."
