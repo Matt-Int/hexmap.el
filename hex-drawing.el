@@ -89,10 +89,6 @@ and incrementing by one going clockwise."
 		 (/ size 5) (/ size 5) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0)))
   (svg-text svg label :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
 
-
-(defgroup hexmapping nil
-  "Specifying hexmaps for ttrpgs.")
-
 (defcustom feature-draw-functions '((village . hex-draw-feature--draw-village)
 				    (nil . hex-draw-feature--draw-unknown))
   "A list of functions for features and how they should be drawn."

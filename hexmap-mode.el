@@ -14,6 +14,21 @@
 
 (require 'hex-drawing)
 
+(defgroup hexmapping nil
+  "Specifying hexmaps for ttrpgs.")
+
+(defcustom biome-colours '((arctic . "white")
+			   (temperate . "green")
+			   (tundra . "darkgreen")
+			   (arid . "yellow")
+			   (tropical . "#00755e")
+			   (ocean . "blue")
+			   (lake . "lightblue")
+			   (nil . "pink"))
+  "A list of hex colours to be used for different biomes."
+  :group 'hexmapping)
+
+
 (defun hexmap-mark-hex-at-point ()
   "Mark the hex specification at point."
   (interactive)
