@@ -138,8 +138,8 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 			      (cdr (plist-get hex :axial-coords))
 			      size
 			      800
-			      "green"
-			      "transparent")
+			      (cdr (assoc (plist-get hex :biome) biome-colours))
+			      "black")
 	      ;; function to draw roads here
 	      (mapc #'(lambda (road)
 			(let ((start (if (symbolp (car road))
