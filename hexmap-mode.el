@@ -81,16 +81,16 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   (let ((hex (replace-regexp-in-string "//.*" "" hex)))
     (let ((axial-coords (hexmap--extract-axial-coords hex))
 	  (terrain (hexmap--extract-keyword hex "terrain"))
-	  (label (replace-regexp-in-string "\"" "" (hexmap--extract-keyword hex "label")))
 	  (biome (hexmap--extract-keyword hex "biome"))
+	  (label (hexmap--extract-keyword hex "label"))
 	  (features (hexmap--extract-keyword hex "features" t))
 	  (roads (hexmap--extract-roads hex))
 	  (rivers (hexmap--extract-roads hex t)))
       `(:axial-coords ,axial-coords
-		      :biome ,(intern biome)
-		      :terrain ,(intern terrain)
-		      :label ,label
-		      :features ,(mapcar #'intern features)
+		      :biome ,(if biome (intern biome))
+		      :terrain ,(if terrain (intern terrain))
+		      :label ,(if label (replace-regexp-in-string "\"" "" label))
+		      :features ,(if features (mapcar #'intern features))
 		      :roads ,roads
 		      :rivers ,rivers))))
 
