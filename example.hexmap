@@ -11,6 +11,7 @@
 1,0 {
 	terrain: waves,
 	biome: ocean,
+}
 0,-1 {
 	terrain: hills,
 	biome: arctic,
