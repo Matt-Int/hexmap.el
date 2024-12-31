@@ -81,6 +81,14 @@ and incrementing by one going clockwise."
 	      (/ size 20) :stroke-color "darkred" :stroke-width (* size (/ 3.0 80.0)))
   (svg-text svg label :x x :y (- y (/ size 20)) :font-size (/ size 6) :text-anchor "middle"))
 
+
+(defun hex-draw-feature--draw-lair (svg x y size)
+  "Draw a generic feature icon on SVG at X, Y with specified SIZE."
+  (svg-circle svg x y
+	      (/ size 20) :stroke-color "darkred" :fill-color "black"
+	      :stroke-width (* size (/ 3.0 80.0)))
+  (svg-text svg label :x x :y (- y (/ size 20)) :font-size (/ size 6) :text-anchor "middle"))
+
 (defun hex-draw-feature--draw-village (svg x y size)
   "Draw a village icon on SVG at X, Y with specified SIZE."
   (svg-rectangle svg
@@ -89,7 +97,22 @@ and incrementing by one going clockwise."
 		 (/ size 5) (/ size 5) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0)))
   (svg-text svg label :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
 
+(defun hex-draw-feature--draw-city (svg x y size)
+  "Draw a city icon on SVG at X, Y with specified SIZE."
+  (svg-rectangle svg
+		 (- x (/ (/ size 2) 2))
+		 (- y (/ (/ size 2) 2))
+		 (/ size 2) (/ size 2) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0)))
+  (svg-rectangle svg
+		 (- x (/ (/ size 3) 2))
+		 (- y (/ (/ size 3) 2))
+		 (/ size 3) (/ size 3) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0)))
+  (svg-text svg label :x x :y (- y (/ size 2)) :font-size (/ size 6) :text-anchor "middle"))
+
+
 (defcustom feature-draw-functions '((village . hex-draw-feature--draw-village)
+				    (city . hex-draw-feature--draw-city)
+				    (lair . hex-draw-feature--draw-lair)
 				    (nil . hex-draw-feature--draw-unknown))
   "A list of functions for features and how they should be drawn."
   :group 'hexmapping)
