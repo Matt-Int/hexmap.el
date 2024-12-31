@@ -26,9 +26,9 @@ Runs \(random t) at the end to avoid reproducible numbers elsewhere."
 (defun hex-draw (svg x y size &optional fill stroke label)
   "Draw a hex in SVG with center of X, Y and specified SIZE.
 Optionally provide the FILL, STROKE, and LABEL for the hex."
-  (let ((fill (or fill "pink"))
+  (let ((fill (or fill "transparent"))
 	(label (or label ""))
-	(stroke (or stroke "transparent")))
+	(stroke (or stroke "black")))
     (svg-polygon svg (hexes-flat-corners x y size)
 		 :stroke-color stroke :fill-color fill)
     (svg-text svg label :x x :y y :font-size (/ size 2) :text-anchor "middle")))
