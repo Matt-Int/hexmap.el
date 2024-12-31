@@ -141,7 +141,10 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   (interactive)
   (let ((map (hexmap-parse-buffer))
 	(svg (svg-create 800 800))
-	(size 80))
+	(size 60.0))
+    (dolist (i (number-sequence -4 4))
+      (dolist (j (number-sequence -4 4))
+	(hex-draw-axial svg i j size 800 "transparent" "black")))
     (mapc #'(lambda (hex)
 	      ;; function to draw main hex here
 	      (hex-draw-axial svg
@@ -182,17 +185,20 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 		    (plist-get hex :roads))
 	      ;; function to draw features
 	      (let ((feature-index 0))
-	      (mapc #'(lambda (feature)
-			(hex-draw-feature-axial svg
-						(car (plist-get hex :axial-coords))
-						(cdr (plist-get hex :axial-coords))
-						size
-						feature-index
-						feature
-						800)
-			(setq feature-index (1+ feature-index)))
-		    (plist-get hex :features))))
+		(mapc #'(lambda (feature)
+			  (hex-draw-feature-axial svg
+						  (car (plist-get hex :axial-coords))
+						  (cdr (plist-get hex :axial-coords))
+						  size
+						  feature-index
+						  feature
+						  800)
+			  (setq feature-index (1+ feature-index)))
+		      (plist-get hex :features))))
 	  map)
+    (dolist (i (number-sequence -2 2))
+      (dolist (j (number-sequence -2 2))
+	(hex-draw-axial svg i j (* size 6) 800 "transparent" "black")))
     (with-current-buffer (get-buffer-create "*Hexmap: SVG*")
       (erase-buffer)
       (insert-image (svg-image svg))
