@@ -142,8 +142,8 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   (let ((map (hexmap-parse-buffer))
 	(svg (svg-create 800 800))
 	(size 60.0))
-    (dolist (i (number-sequence -4 4))
-      (dolist (j (number-sequence -4 4))
+    (dolist (i (number-sequence -5 5))
+      (dolist (j (number-sequence -5 5))
 	(hex-draw-axial svg i j size 800 "transparent" "black")))
     (mapc #'(lambda (hex)
 	      ;; function to draw main hex here
