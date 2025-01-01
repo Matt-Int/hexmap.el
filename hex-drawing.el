@@ -141,7 +141,23 @@ Provide BIOME to get the matching `biome-highlight-colours'."
 				      ,(* size (/ -5.0 80)) :sweep t))))
 	      :fill "transparent" :stroke colour :relative t :stroke-width (* size (/ 4.0 80)))))
 
+(defun hex-draw-terrain--draw-plains (svg x y size &optional biome)
+  "Draw a plains terrain symbol on SVG at X,Y at given SIZE.
+Provide BIOME to get the matching `biome-highlight-colours'."
+  (let ((x2 (+ x (* 0.55 size)))
+	(x1 x)
+	(x3 (- x (* 0.55 size)))
+	(x4 (+ (- x (* 0.55 size)) (* 0.45 size)))
+	(x5 (+ x (* 0.15 size)))
+	(x6 (+ (+ x (* 0.15 size)) (* 0.25 size)))
+	(colour (if biome (cdr (assoc biome biome-highlight-colours)) "white")))
+    (svg-line svg x1 y x2 y :stroke-color colour :stroke-width 3)
+    (svg-line svg x3 (- y (* 0.25 size)) x4 (- y (* 0.25 size)) :stroke-color colour :stroke-width 3)
+    (svg-line svg x5 (- y (* 0.25 size)) x6 (- y (* 0.25 size)) :stroke-color colour :stroke-width 3)
+    ))
+
 (defcustom terrain-draw-functions '((hills . hex-draw-terrain--draw-hills)
+				    (plains . hex-draw-terrain--draw-plains)
 				    (nil . hex-draw-terrain--draw-blank))
   "A list of functions for terrains and how they should be drawn."
   :group 'hexmapping)
