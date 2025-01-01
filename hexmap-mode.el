@@ -226,6 +226,19 @@ Optionally set RIVERS to non-nil to parse rivers instead."
       (insert-image (svg-image svg))
       (display-buffer "*Hexmap: SVG*"))))
 
+(defun hexmap-visualise-dwim ()
+  "Visualises the current buffer if nothing is selected.
+If mark is active then only visualise the marked region."
+  (interactive)
+  (if (use-region-p)
+      (let ((start (use-region-beginning))
+	    (end (use-region-end)))
+	(let ((hexmap (buffer-substring start end)))
+	  (with-temp-buffer
+	    (insert hexmap)
+	    (hexmap-visualise-buffer))))
+    (hexmap-visualise-buffer)))
+
 (defvar hexmap-mode-syntax-table
   (let ((st (make-syntax-table)))
     ;; use {} for encapsulating blocks.
@@ -286,7 +299,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 			    ("-?\\([0-9]\\)+,-?\\([0-9]\\)+" . font-lock-type-face)))
   
   ;; Keybinds
-  (local-set-key (kbd "C-c C-c") #'hexmap-visualise-buffer)
+  (local-set-key (kbd "C-c C-c") #'hexmap-visualise-dwim)
   (local-set-key (kbd "C-c C-n") #'hexmap-goto-next)
   (local-set-key (kbd "C-c C-p") #'hexmap-goto-previous)
   ;; defaults
