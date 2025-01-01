@@ -13,7 +13,7 @@
 	biome: ocean,
 }
 0,-1 {
-	terrain: hills,
+	terrain: mountains,
 	biome: arctic,
 	label: "Hills",
 	features: [city, village, hamlet],
