@@ -161,6 +161,28 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 				      size 800
 				      (plist-get hex :terrain)
 				      (plist-get hex :biome))
+	      ;; function to draw rivers
+	      (mapc #'(lambda (river)
+			(let ((start (if (symbolp (car river))
+					 (let ((feature (car river))
+					       (axial (plist-get hex :axial-coords))
+					       (index (cl-position (car river) (plist-get hex :features))))
+					   `(:q ,(car axial) :r ,(cdr axial) :index ,index :feature ,(car river)))
+				       (car river)))
+			      (end (if (symbolp (cdr river))
+				       (let ((feature (cdr river))
+					     (axial (plist-get hex :axial-coords))
+					     (index (cl-position (cdr river) (plist-get hex :features))))
+					 `(:q ,(car axial) :r ,(cdr axial) :index ,index :feature ,(cdr river)))
+				     (cdr river))))
+			  (hex-draw-axial-road svg
+					       (car (plist-get hex :axial-coords))
+					       (cdr (plist-get hex :axial-coords))
+					       size
+					       start
+					       end 400 "blue" 3))
+			)
+		    (plist-get hex :rivers))
 	      ;; function to draw roads here
 	      (mapc #'(lambda (road)
 			(let ((start (if (symbolp (car road))
