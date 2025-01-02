@@ -1,0 +1,542 @@
+// Central Region
+0,0 {
+	terrain: plains,
+	biome: temperate,
+	features: [village],
+	notes: ["Phovah"]
+	roads: [village->3, 0->village, 1->village, village->4]
+}
+0,1 {
+	biome: temperate,
+	terrain: forests,
+	roads: [0->3],
+	rivers:[2->4]
+}
+0,2 {
+	biome: temperate,
+	terrain: forests,
+	features: [shrine],
+	roads: [5->shrine, 0->shrine]
+}
+0,-1 {
+	biome:temperate,
+	terrain:plains,
+	roads: [0->3, 2->5]
+}
+0,-2 {
+	biome: temperate,
+	terrain: marsh,
+	roads: [0->3]
+}
+1,0{
+	biome: temperate,
+	terrain: plains,
+	rivers: [2->3]
+}
+2,0{
+	biome: temperate,
+	terrain: forests,
+	rivers: [0->5]
+}
+-1,0 {
+	biome: temperate,
+	terrain: plains,
+	rivers: [0->4]
+}
+-2,0 {
+	biome: temperate,
+	terrain: plains,
+}
+
+1,-1{
+	biome: temperate,
+	terrain: plains,
+	roads: [4->1, 5->2]
+}
+2,-2{
+	biome: temperate,
+	terrain: forests,
+	roads: [4->1],
+	rivers: [2->5, 3->2]
+}
+
+-1,1{
+	biome: temperate,
+	terrain: forests,
+	roads: [1->4, 1->3]
+}
+-2,2{
+	biome: temperate,
+	terrain:forests,
+	roads: [1->4]
+}
+-2,1{
+	biome: temperate,
+	terrain: forests,
+	rivers: [1->4],
+}
+-1,-1{
+	biome: temperate,
+	terrain: forests,
+	roads: [2->5],
+	rivers: [3->0]
+}
+1,-2{
+	biome:temperate,
+	terrain: marsh,
+	features: [spring]
+	rivers: [spring->2]
+}
+2,-1{
+	biome:temperate,
+	terrain: forests,
+	roads: [5->2],
+	rivers: [0->3]
+}
+1,1{
+	biome: temperate,
+	terrain: plains,
+	rivers: [5->0, 3->0]
+}
+-1,2{
+	biome: temperate,
+	terrain: mountains,
+	features: [spring]
+	roads: [0->3, 0->2],
+	rivers: [spring->1]
+}
+// outer layer
+3,-3{
+	biome: temperate,
+	terrain: forests,
+	roads: [4->2]
+}
+3,0 {
+	biome: temperate,
+	terrain: forests,
+}
+0,3{
+	biome: temperate,
+	terrain: hills,
+}
+-3,3{
+	biome:temperate,
+	terrain: forests,
+	features:[village]
+	roads: [1->village,village->4,village->5,village->3]
+}
+-3,0{
+	biome: temperate,
+	terrain: plains,
+}
+-2,-1{
+	biome: temperate,
+	terrain: forests,
+	features: [lair]
+	roads: [lair->2],
+}
+-1,-2{
+	biome: ocean,
+	terrain: waves,
+}
+1,-3{
+	biome: ocean,
+	terrain: waves,
+}
+2,-3{
+	biome:temperate,
+	terrain: marsh,
+}
+3,-2{
+	biome: temperate,
+	terrain: forests,
+	rivers: [5->1]
+}
+3,-1{
+	biome: temperate,
+	terrain: plains,
+	roads: [5->center]
+}
+2,1{
+	biome: temperate,
+	terrain: hills,
+}
+1,2{
+	biome: temperate,
+	terrain: hills,
+	rivers: [0->3],
+	features: [castle]
+}
+-1,3{
+	biome: temperate,
+	terrain: marsh,
+	roads: [0->3, 0->4]
+}
+-2,3{
+	biome:temperate,
+	terrain: marsh,
+}
+-3,2{
+	biome: temperate,
+	terrain: forests,
+	rivers: [1->4],
+	features: [island]
+}
+-3,1{
+	biome: temperate,
+	terrain: hills,
+}
+-4,2{
+	biome: temperate,
+	terrain: mountains,
+}
+4,-2{
+	biome: temperate,
+	terrain: forests,
+}
+
+-2,4{
+	biome: temperate,
+	terrain: marsh,
+	roads: [1->4, 1->3]
+}
+2,2{
+	biome: temperate,
+	terrain: hills,
+}
+
+// Northern Region
+-2,-2{
+	biome:ocean,
+	terrain: waves,
+}
+2,-4{
+	biome:ocean,
+	terrain:waves,
+}
+0,-3{
+	biome: temperate,
+	terrain: marsh,
+	roads: [3->2, 3->1]
+}
+0,-4 {
+	biome: temperate,
+	terrain: marsh,
+	roads: [2->4]
+}
+0,-5 {
+	biome: ocean,
+	terrain: waves,
+}
+0,-6 { // middle of the region
+	biome: temperate,
+	terrain: marsh,
+}
+0,-7 {
+	biome:ocean,
+	terrain: waves,
+	features: [island]
+}
+0,-8 {
+	biome: ocean,
+	terrain: waves,
+}
+0,-9 {
+	biome: temperate,
+	terrain: marsh,
+}
+
+1,-6{
+	biome: temperate,
+	terrain: marsh,
+}
+2,-6{
+	biome: temperate,
+	terrain: hills,
+	features: [village]
+	roads: [1->village,5->village,2->village,3->village]
+}
+3,-6{
+	biome: temperate,
+	terrain: mountains,
+}
+-1,-6{
+	biome: temperate,
+	terrain: marsh,
+}
+-2,-6{
+	biome: temperate,
+	terrain: plains,
+}
+-3,-6{
+	biome: temperate,
+	terrain: marsh,
+	features: [remains],
+}
+1,-7{
+	biome: temperate,
+	terrain: marsh,
+}
+2,-8{
+	biome: temperate,
+	terrain: marsh,
+}
+3,-9{
+	biome: temperate,
+	terrain: forests,
+}
+-1,-5{
+	biome: ocean,
+	terrain: waves,
+}
+-2,-4{
+	biome: ocean,
+	terrain: waves,
+}
+-3,-3{
+	biome: temperate,
+	terrain: hills,
+}
+
+-1,-3{
+	biome: temperate,
+	terrain: marsh,
+	roads: [1->5,5->3]
+}
+-2,-3{
+	biome: temperate,
+	terrain: marsh,
+	features: [village],
+	notes: ["Behva's Hllw"],
+	roads: [2->3, village->3, village->2],
+}
+-1,-4{
+	biome: ocean,
+	terrain: waves,
+}
+-3,-4{
+	biome: temperate,
+	terrain: mountains,
+}
+-3,-5{
+	biome: temperate,
+	terrain: mountains,
+	features: [ruin],
+	notes: ["Village"]
+}
+-2,-5{
+	biome: ocean,
+	terrain: waves,
+}
+
+-2,-7{
+	biome: ocean,
+	terrain: waves,
+}
+-1,-8{
+	biome: temperate,
+	terrain: mountains,
+}
+-1,-7{
+	biome: temperate,
+	terrain: plains,
+}
+1,-9{
+	biome: temperate,
+	terrain: marsh,
+}
+2,-9{
+	biome: temperate,
+	terrain: marsh,
+}
+1,-8{
+	biome: temperate,
+	terrain: marsh,
+}
+3,-8{
+	biome: temperate,
+	terrain: forests,
+}
+3,-7{
+	biome: temperate,
+	terrain: forests,
+	roads: [2->5,4->1]
+}
+2,-7{
+	biome: temperate,
+	terrain: marsh,
+}
+2,-5{
+	biome: temperate,
+	terrain: hills,
+}
+1,-4{
+	biome: temperate,
+	terrain: hills,
+	roads: [4->5]
+}
+1,-5{
+	biome: ocean,
+	terrain: waves,
+}
+
+// Northeastern region
+4,-6 {
+	biome: temperate,
+	terrain: mountains,
+	roads: [1->end]
+}
+5,-6 {
+	biome: temperate,
+	terrain: hills,
+	features: [lair],
+	roads: [1->lair]
+}
+6,-6 { // center of hex
+	biome: temperate,
+	terrain: mountains,
+	features: [lair]
+}
+7,-6 {
+	biome: temperate,
+	terrain: mountains,
+}
+8,-6 {
+	biome: ocean,
+	terrain: waves,
+}
+9,-6 {
+	biome: temperate,
+	terrain: mountains,
+}
+4,-7{
+	biome: temperate,
+	terrain: mountains,
+	roads: [2->5, 1->0]
+}
+5,-8{
+	biome:temperate,
+	terrain: hills,
+	roads: [2->5,4->1]
+}
+5,-7{
+	biome: temperate,
+	terrain: mountains,
+	roads: [2->5, 4->1]
+}
+6,-5{
+	biome: temperate,
+	terrain: mountains,
+}
+6,-4 {
+	biome: temperate,
+	terrain: mountains,
+}
+6,-3 {
+	biome: temperate,
+	terrain: hills,
+}
+
+6,-7{
+	biome: temperate,
+	terrain: mountains,
+	roads: [1->4, 0->5, 0->4]
+}
+6,-8{
+	biome: temperate,
+	terrain: mountains,
+	roads: [1->0,0->3,4->5]
+}
+6,-9{
+	biome: temperate,
+	terrain: mountains,
+	roads: [3->4, 4->1]
+}
+7,-9{
+	biome: temperate,
+	terrain:mountains,
+	roads: [4->1, 4->3, 2->1]
+}
+8,-9{
+	biome: temperate,
+	terrain: hills,
+	roads: [3->5, 3->1]
+}
+7,-8{
+	biome: temperate,
+	terrain: plains,
+	roads: [0->2, 0->4]
+}
+7,-7{
+	biome: temperate,
+	terrain: mountains,
+}
+8,-8{
+	biome: temperate,
+	terrain: mountains,
+	roads: [5->0]
+}
+9,-9{
+	biome: temperate,
+	terrain: plains,
+}
+9,-8{
+	biome: temperate,
+	terrain: marsh,
+}
+9,-7{
+	biome: temperate,
+	terrain: marsh,
+}
+8,-7{
+	biome: temperate,
+	terrain: mountains,
+}
+8,-5{
+	biome: temperate,
+	terrain: plains,
+}
+7,-4{
+	biome: temperate,
+	terrain: plains,
+}
+7,-5{
+	biome: ocean,
+	terrain: waves,
+}
+5,-5{
+	biome: temperate,
+	terrain: hills,
+}
+4,-4{
+	biome: temperate,
+	terrain: hills,
+}
+3,-3{
+	biome: temperate,
+	terrain: hills,
+}
+5,-4{
+	biome: temperate,
+	terrain: hills,
+}
+5,-3{
+	biome: temperate,
+	terrain: mountains,
+}
+4,-3{
+	biome: ocean,
+	terrain: waves,
+}
+4,-5{
+	biome: temperate,
+	terrain: mountains,
+}
+3,-4{
+	biome: temperate,
+	terrain: mountains,
+}
+3,-5{
+	biome: temperate,
+	terrain: mountains,
+}
