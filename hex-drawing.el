@@ -30,7 +30,8 @@ Optionally provide the FILL, STROKE, and LABEL for the hex."
 	(label (or label ""))
 	(stroke (or stroke "black")))
     (svg-polygon svg (hexes-flat-corners x y size)
-		 :stroke-color stroke :fill-color fill)
+		 :stroke-color stroke :fill-color fill
+		 :stroke-width (* size (/ 3.0 80.0)))
     (svg-text svg label :x x :y y :font-size (/ size 2) :text-anchor "middle")))
 
 
@@ -65,7 +66,7 @@ Optionally, add in the COLOUR and WIDTH of the road segment."
 	(road-1 (hex-road-coords x y size start end)))
     (svg-path svg `((moveto (,(car road-1)))
 		(smooth-curveto ,(cdr road-1)))
-	  :stroke colour :fill "transparent" :stroke-width width)))
+	  :stroke colour :fill "transparent" :stroke-width (* size (/ width 80.0)))))
 
 (defun hex-draw-axial-road (svg q r size start end &optional center colour width offset)
   "Use Q and R axial coordinates to draw a road on an SVG hex with a given SIZE.
@@ -83,7 +84,8 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
   (if feature
       (message (format "Feature: %s does not have a draw-function" feature)))
   (svg-circle svg x y
-	      (/ size 20) :stroke-color "darkred" :stroke-width (* size (/ 3.0 80.0)))
+	      (/ size 20) :stroke-color "darkred" :fill-color "white"
+	      :stroke-width (* size (/ 3.0 80.0)))
   (svg-text svg label :x x :y (- y (/ size 20)) :font-size (/ size 6) :text-anchor "middle"))
 
 
@@ -99,7 +101,8 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
   (svg-rectangle svg
 		 (- x (/ (/ size 5) 2))
 		 (- y (/ (/ size 5) 2))
-		 (/ size 5) (/ size 5) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0)))
+		 (/ size 5) (/ size 5) :stroke-color "black" :fill-color "white"
+		 :stroke-width (* size (/ 3.0 80.0)))
   (svg-text svg label :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
 
 (defun hex-draw-feature--draw-city (svg x y size)
@@ -107,11 +110,13 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
   (svg-rectangle svg
 		 (- x (/ (/ size 2) 2))
 		 (- y (/ (/ size 2) 2))
-		 (/ size 2) (/ size 2) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0)))
+		 (/ size 2) (/ size 2) :stroke-color "black" :fill-color "white"
+		 :stroke-width (* size (/ 3.0 80.0)))
   (svg-rectangle svg
 		 (- x (/ (/ size 3) 2))
 		 (- y (/ (/ size 3) 2))
-		 (/ size 3) (/ size 3) :stroke-color "black" :stroke-width (* size (/ 3.0 80.0)))
+		 (/ size 3) (/ size 3) :stroke-color "black" :fill-color "white"
+		 :stroke-width (* size (/ 3.0 80.0)))
   (svg-text svg label :x x :y (- y (/ size 2)) :font-size (/ size 6) :text-anchor "middle"))
 
 
@@ -156,9 +161,11 @@ Provide BIOME to get the matching `biome-highlight-colours'."
 	(x5 (+ x (* 0.15 size)))
 	(x6 (+ (+ x (* 0.15 size)) (* 0.25 size)))
 	(colour (if biome (cdr (assoc biome biome-highlight-colours)) "white")))
-    (svg-line svg x1 y x2 y :stroke-color colour :stroke-width 3)
-    (svg-line svg x3 (- y (* 0.25 size)) x4 (- y (* 0.25 size)) :stroke-color colour :stroke-width 3)
-    (svg-line svg x5 (- y (* 0.25 size)) x6 (- y (* 0.25 size)) :stroke-color colour :stroke-width 3)
+    (svg-line svg x1 y x2 y :stroke-color colour :stroke-width (* size (/ 3.0 80.0)))
+    (svg-line svg x3 (- y (* 0.25 size)) x4 (- y (* 0.25 size)) :stroke-color colour :stroke-width (* size
+												      (/ 3.0 80.0)))
+    (svg-line svg x5 (- y (* 0.25 size)) x6 (- y (* 0.25 size)) :stroke-color colour :stroke-width (* size
+												      (/ 3.0 80.0)))
     ))
 
 (defun hex-draw-terrain--draw-wave (svg x y size &optional biome)
@@ -169,10 +176,14 @@ Provide BIOME to get the matching `biome-highlight-colours'."
 	(x3 (+ x (* size 0.4)))
 	(y2 (- y (* size 0.1)))
 	(colour (if biome (cdr (assoc biome biome-highlight-colours)) "white")))
-    (svg-line svg x2 y2 x3 y :stroke-color colour)
-    (svg-line svg x1 y x2 y2 :stroke-color colour)
-    (svg-line svg (- x2 (* size 0.05)) (- y2 (* size 0.05)) x3 (- y (* size 0.05)) :stroke-color colour)
-    (svg-line svg x1 (- y (* size 0.05)) (- x2 (* size 0.05)) (- y2 (* size 0.05)) :stroke-color colour)
+    (svg-line svg x2 y2 x3 y :stroke-color colour :stroke-width (* size (/ 3.0 80.0)))
+    (svg-line svg x1 y x2 y2 :stroke-color colour :stroke-width (* size (/ 3.0 80.0)))
+    (svg-line svg (- x2 (* size 0.05)) (- y2 (* size 0.05)) x3 (- y (* size 0.05))
+	      :stroke-color colour
+	      :stroke-width (* size (/ 3.0 80.0)))
+    (svg-line svg x1 (- y (* size 0.05)) (- x2 (* size 0.05)) (- y2 (* size 0.05))
+	      :stroke-color colour
+	      :stroke-width (* size (/ 3.0 80.0)))
     ))
 
 (defun hex-draw-terrain--draw-waves (svg x y size &optional biome)
