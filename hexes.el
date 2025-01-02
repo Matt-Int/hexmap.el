@@ -13,6 +13,8 @@
 
 ;;; Code:
 
+(require 'cl-lib)
+
 (defun hexes-flat-corner (x y size i)
   "Given X, Y, and SIZE of a hex, calculate the coordinates of the Ith corner."
        `(,(+ x (* size (cos (degrees-to-radians (* 60 i))))) .
@@ -82,6 +84,29 @@ then get that point using the seeded random offset"
     (let ((offset-coords `(,(+ (car coords) (* (car offset) (/ size 1.5))) .
 			   ,(+ (cdr coords) (* (cdr offset) (/ size 1.5))))))
       offset-coords)))
+
+(defun hexes-boundaries (hexes-coordinates)
+  "Return the max distance of all HEXES-COORDINATES provided to their average.
+HEXES-COORDINATES should be a dot-pair list of \='((Q . R) (Q . R)) etc.."
+  (let ((coords hexes-coordinates)
+	(center (hexes-center hexes-coordinates))
+	(results))
+    (dolist (i coords)
+      (add-to-list 'results (max (abs (- (car center) (car i)))
+				 (abs (- (cdr center) (cdr i)))
+				 (abs (- (hexes-axial-s-component (car i) (cdr i))
+					 (hexes-axial-s-component (car center) (cdr center)))))))
+    (cl-reduce #'max results)))
+
+(defun hexes-center (hexes-coordinates)
+  "Return the average coordinates of all HEXES-COORDINATES provided.
+HEXES-COORDINATES should be a dot-pair list of \='((Q . R) (Q . R)) etc.."
+  (let ((qs (mapcar #'car hexes-coordinates))
+	(rs (mapcar #'cdr hexes-coordinates)))
+    (message "qs: %s" qs)
+    `(,(round (/ (apply #'+ qs) (float (length qs))))
+      . ,(round (/ (apply #'+ rs) (float (length rs))))
+      )))
 
 (provide 'hexes)
 ;;; hexes.el ends here
