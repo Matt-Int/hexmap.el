@@ -218,7 +218,6 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 			)
 		    (plist-get hex :roads))
 	      ;; function to draw features
-	      (message "%s" hex)
 	      (let ((feature-index 0))
 		(mapc #'(lambda (feature)
 			  (hex-draw-feature-axial svg
