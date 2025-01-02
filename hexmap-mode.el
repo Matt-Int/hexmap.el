@@ -141,7 +141,13 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   (interactive)
   (let ((map (hexmap-parse-buffer))
 	(svg (svg-create 800 800))
-	(size 60.0))
+	(size 60.0)
+	(offset))
+    (let ((boundary (hexes-boundaries (mapcar #'(lambda (hex) (plist-get hex :axial-coords)) map)))
+	  (center (hexes-center (mapcar #'(lambda (hex) (plist-get hex :axial-coords)) map))))
+      (setq size (/ 400.0 (* (1+ boundary) 2)))
+      (setq offset (hexes-axial-to-cartesian (car center) (cdr center) size))
+      )
     (dolist (i (number-sequence 0 10))
       (dolist (j (number-sequence 0 10))
 	(hex-draw-axial svg (- i) (- j) size 800 "transparent" "black")
@@ -156,14 +162,15 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 			      size
 			      800
 			      (cdr (assoc (plist-get hex :biome) biome-colours))
-			      "black")
+			      "black" "" offset)
 	      ;; function to draw terrain
 	      (hex-draw-terrain-axial svg
 				      (car (plist-get hex :axial-coords))
 				      (cdr (plist-get hex :axial-coords))
 				      size 800
 				      (plist-get hex :terrain)
-				      (plist-get hex :biome))
+				      (plist-get hex :biome)
+				      offset)
 	      ;; function to draw rivers
 	      (mapc #'(lambda (river)
 			(let ((start (if (symbolp (car river))
@@ -183,7 +190,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 					       (cdr (plist-get hex :axial-coords))
 					       size
 					       start
-					       end 400 "blue" 3))
+					       end 400 "blue" 3 offset))
 			)
 		    (plist-get hex :rivers))
 	      ;; function to draw roads here
@@ -205,7 +212,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 					       (cdr (plist-get hex :axial-coords))
 					       size
 					       start
-					       end 400))
+					       end 400 nil nil offset))
 			)
 		    (plist-get hex :roads))
 	      ;; function to draw features
@@ -217,7 +224,8 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 						  size
 						  feature-index
 						  feature
-						  800)
+						  800
+						  offset)
 			  (setq feature-index (1+ feature-index)))
 		      (plist-get hex :features))))
 	  map)
