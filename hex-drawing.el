@@ -212,11 +212,34 @@ Provide BIOME to get the matching `biome-highlight-colours'."
   (hex-draw-terrain--draw-mountain svg (- x (* size 0.5)) (- y (* size 0.2)) size biome)
   (hex-draw-terrain--draw-mountain svg (- x (* size 0.34)) (+ y (* size 0.15)) size biome))
 
+(defun hex-draw-terrain--draw-tree (svg x y size &optional biome)
+  "Draw a wave terrain symbol on SVG at X,Y at given SIZE.
+Provide BIOME to get the matching `biome-highlight-colours'."
+  (let ((x1 x)
+	(x2 (+ x (* size 0.2)))
+	(x3 (+ x (* size 0.4)))
+	(y2 (- y (* size 0.45)))
+	(colour (if biome (cdr (assoc biome biome-highlight-colours)) "white")))
+    (svg-line svg x y2 x y :stroke-color colour :stroke-width (* size (/ 3.0 80.0)))
+    (svg-circle svg x y2 (* size 0.2)
+		:stroke-color colour
+		:fill-color colour
+		:stroke-width (* size (/ 3.0 80.0)))
+    ))
+
+(defun hex-draw-terrain--draw-forests (svg x y size &optional biome)
+  "Draw a mountains terrain symbol on SVG at X,Y at given SIZE.
+Provide BIOME to get the matching `biome-highlight-colours'."
+  (hex-draw-terrain--draw-tree svg x y size biome)
+  (hex-draw-terrain--draw-tree svg (- x (* size 0.5 )) (+ y (* size 0.2 )) size biome)
+  (hex-draw-terrain--draw-tree svg (+ x (* size 0.34)) (+ y (* size 0.15)) size biome))
+
 
 (defcustom terrain-draw-functions '((hills . hex-draw-terrain--draw-hills)
 				    (plains . hex-draw-terrain--draw-plains)
 				    (waves . hex-draw-terrain--draw-waves)
 				    (mountains . hex-draw-terrain--draw-mountains)
+				    (forests . hex-draw-terrain--draw-forests)
 				    (nil . hex-draw-terrain--draw-blank))
   "A list of functions for terrains and how they should be drawn."
   :group 'hexmapping)
