@@ -81,7 +81,6 @@
 		       (goto-char (point-min))
 		       (search-forward keyword)
 		       (search-forward "[")
-		       (forward-char)
 		       (backward-up-list)
 		       (mark-sexp)
 		       (buffer-substring-no-properties (1- (mark)) (1+ (point))))))
@@ -109,6 +108,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 	  (terrain (hexmap--extract-keyword hex "terrain"))
 	  (biome (hexmap--extract-keyword hex "biome"))
 	  (label (hexmap--extract-keyword hex "label"))
+	  (notes (hexmap--extract-keyword hex "notes" t))
 	  (features (hexmap--extract-keyword hex "features" t))
 	  (roads (hexmap--extract-roads hex))
 	  (rivers (hexmap--extract-roads hex t)))
@@ -116,6 +116,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 		      :biome ,(if biome (intern biome))
 		      :terrain ,(if terrain (intern terrain))
 		      :label ,(if label (replace-regexp-in-string "\"" "" label))
+		      :notes ,(if notes (mapcar #'(lambda (label) (replace-regexp-in-string "\"" "" label)) notes))
 		      :features ,(if features (mapcar #'intern features))
 		      :roads ,roads
 		      :rivers ,rivers))))
@@ -142,6 +143,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   (let ((map (hexmap-parse-buffer))
 	(svg (svg-create 800 800))
 	(size 60.0)
+	(feature-index-master 0)
 	(offset))
     (let ((boundary (hexes-boundaries (mapcar #'(lambda (hex) (plist-get hex :axial-coords)) map)))
 	  (center (hexes-center (mapcar #'(lambda (hex) (plist-get hex :axial-coords)) map))))
@@ -216,6 +218,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 			)
 		    (plist-get hex :roads))
 	      ;; function to draw features
+	      (message "%s" hex)
 	      (let ((feature-index 0))
 		(mapc #'(lambda (feature)
 			  (hex-draw-feature-axial svg
@@ -225,8 +228,13 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 						  feature-index
 						  feature
 						  800
-						  offset)
-			  (setq feature-index (1+ feature-index)))
+						  offset
+						  (if (plist-get hex :notes)
+						      (format "(%s):%s" feature-index-master
+							      (nth feature-index (plist-get hex :notes)))
+						    (number-to-string feature-index-master)))
+			  (setq feature-index (1+ feature-index))
+			  (setq feature-index-master (1+ feature-index-master)))
 		      (plist-get hex :features))))
 	  map)
     (dolist (i (number-sequence 0 10))
@@ -306,6 +314,7 @@ If mark is active then only visualise the marked region."
 			    ("biome:" . font-lock-doc-face)
 			    ("rivers:" . font-lock-doc-face)
 			    ("label:" . font-lock-string-face)
+			    ("notes:" . font-lock-string-face)
 			    ("features:" . font-lock-type-face)
 			    ("roads:" . font-lock-type-face)
 			    ("[0-7]->[0-7]" . font-lock-constant-face)

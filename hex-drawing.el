@@ -79,33 +79,34 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
 		   (- (cdr cartesian) (cdr offset)) size start end colour width)))
 
 
-(defun hex-draw-feature--draw-unknown (svg x y size &optional feature)
+(defun hex-draw-feature--draw-unknown (svg x y size &optional feature label)
   "Draw a generic feature icon on SVG at X, Y with specified SIZE."
   (if feature
       (message (format "Feature: %s does not have a draw-function" feature)))
   (svg-circle svg x y
 	      (/ size 20) :stroke-color "darkred" :fill-color "white"
 	      :stroke-width (* size (/ 3.0 80.0)))
-  (svg-text svg (format "%s" feature) :x x :y (- y (/ size 20)) :font-size (/ size 6) :text-anchor "middle"))
+  (svg-text svg (format "%s (%s)" label feature) :x x :y (- y (/ size 20))
+	    :font-size (/ size 6) :text-anchor "middle"))
 
 
-(defun hex-draw-feature--draw-lair (svg x y size)
+(defun hex-draw-feature--draw-lair (svg x y size &optional label)
   "Draw a generic feature icon on SVG at X, Y with specified SIZE."
   (svg-circle svg x y
 	      (/ size 20) :stroke-color "darkred" :fill-color "black"
 	      :stroke-width (* size (/ 3.0 80.0)))
-  (svg-text svg label :x x :y (- y (/ size 20)) :font-size (/ size 6) :text-anchor "middle"))
+  (svg-text svg (or label "") :x x :y (- y (/ size 20)) :font-size (/ size 6) :text-anchor "middle"))
 
-(defun hex-draw-feature--draw-village (svg x y size)
+(defun hex-draw-feature--draw-village (svg x y size &optional label)
   "Draw a village icon on SVG at X, Y with specified SIZE."
   (svg-rectangle svg
 		 (- x (/ (/ size 5) 2))
 		 (- y (/ (/ size 5) 2))
 		 (/ size 5) (/ size 5) :stroke-color "black" :fill-color "white"
 		 :stroke-width (* size (/ 3.0 80.0)))
-  (svg-text svg label :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
+  (svg-text svg (or label "") :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
 
-(defun hex-draw-feature--draw-city (svg x y size)
+(defun hex-draw-feature--draw-city (svg x y size &optional label)
   "Draw a city icon on SVG at X, Y with specified SIZE."
   (svg-rectangle svg
 		 (- x (/ (/ size 2) 2))
@@ -117,7 +118,7 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
 		 (- y (/ (/ size 3) 2))
 		 (/ size 3) (/ size 3) :stroke-color "black" :fill-color "white"
 		 :stroke-width (* size (/ 3.0 80.0)))
-  (svg-text svg label :x x :y (- y (/ size 2)) :font-size (/ size 6) :text-anchor "middle"))
+  (svg-text svg (or label "") :x x :y (- y (/ size 2)) :font-size (/ size 6) :text-anchor "middle"))
 
 
 (defcustom feature-draw-functions '((village . hex-draw-feature--draw-village)
@@ -268,10 +269,10 @@ If OFFSET is non-nil and a dotted pair \='(X . Y) these are applied to the final
   (let ((func (cdr (assoc feature feature-draw-functions)))
 	(unknown-func (cdr (assoc 'nil feature-draw-functions))))
     (if func
-	(apply func `(,svg ,x, y, size))
-      (apply unknown-func `(,svg ,x ,y ,size ,feature)))))
+	(apply func `(,svg ,x, y, size ,label))
+      (apply unknown-func `(,svg ,x ,y ,size ,feature ,label)))))
 
-(defun hex-draw-feature-axial (svg q r size index &optional feature canvas offset)
+(defun hex-draw-feature-axial (svg q r size index &optional feature canvas offset label)
   "Draw a specified FEATURE on the SVG at hex in Q, R with SIZE.
 INDEX is the nth feature this is in the hex, starting at 0.
 OFFSET shifts the final result by a specified amount of pixels."
@@ -281,7 +282,7 @@ OFFSET shifts the final result by a specified amount of pixels."
 	(offset (or offset '(0 . 0))))
     (hex-draw-feature svg (- (car feature-coords) (car offset))
 		      (- (cdr feature-coords) (cdr offset)) size
-		      (number-to-string index) feature))
+		      label feature))
   )
 
 (provide 'hex-drawing)
