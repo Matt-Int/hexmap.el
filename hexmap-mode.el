@@ -233,8 +233,10 @@ Optionally set RIVERS to non-nil to parse rivers instead."
       (dolist (j (number-sequence -2 2))
 	(hex-draw-axial svg i j (* size 6) 800 "transparent" "black")))
     (with-current-buffer (get-buffer-create "*Hexmap: SVG*")
+      (fundamental-mode)
       (erase-buffer)
-      (insert-image (svg-image svg))
+      (svg-print svg)
+      (image-mode)
       (display-buffer "*Hexmap: SVG*"))))
 
 (defun hexmap-visualise-dwim ()
