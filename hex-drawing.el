@@ -34,10 +34,11 @@ Optionally provide the FILL, STROKE, and LABEL for the hex."
     (svg-text svg label :x x :y y :font-size (/ size 2) :text-anchor "middle")))
 
 
-(defun hex-draw-axial (svg q r size &optional canvas fill stroke label)
+(defun hex-draw-axial (svg q r size &optional canvas fill stroke label offset)
   "Draw a hex on an SVG, accepts axial Q and R coordinates.
 Needs to provide the SIZE for converting to cartesian coordinates.
 CANVAS can be provided to calculate the center of 0,0.
+OFFSET can be used to offset the final X,Y coordinates by the specified amount.
 FILL, STROKE, and LABEL can also be provided, see `draw-hex' for details.
 Example usage: \(let ((svg (svg-create 200 200)))
   (hex-draw-axial svg 0 0 20 200 \"green\")
@@ -48,10 +49,11 @@ Example usage: \(let ((svg (svg-create 200 200)))
     (display-buffer \"*SVG Image: Testing*\")))"
   (let ((coords (hexes-axial-to-cartesian q r size))
 	(center (or canvas 0))
-	(fill (or fill "pink")))
+	(fill (or fill "pink"))
+	(offset (or offset '(0 . 0))))
     (hex-draw svg
-	      (+ (/ center 2) (car coords))
-	      (+ (/ center 2) (cdr coords))
+	      (- (+ (/ center 2) (car coords)) (car offset))
+	      (- (+ (/ center 2) (cdr coords)) (cdr offset))
 	      size
 	      fill stroke label)))
 
@@ -65,12 +67,15 @@ Optionally, add in the COLOUR and WIDTH of the road segment."
 		(smooth-curveto ,(cdr road-1)))
 	  :stroke colour :fill "transparent" :stroke-width width)))
 
-(defun hex-draw-axial-road (svg q r size start end &optional center colour width)
+(defun hex-draw-axial-road (svg q r size start end &optional center colour width offset)
   "Use Q and R axial coordinates to draw a road on an SVG hex with a given SIZE.
 Road is specified using START and END which is 0->5 starting with 0 at top,
-and incrementing by one going clockwise."
-  (let ((cartesian (hexes-axial-to-cartesian q r size center)))
-    (hex-draw-road svg (car cartesian) (cdr cartesian) size start end colour width)))
+and incrementing by one going clockwise.
+OFFSET is used when Q:0,R:0 is no longer the center hex."
+  (let ((cartesian (hexes-axial-to-cartesian q r size center))
+	(offset (or offset '(0 . 0))))
+    (hex-draw-road svg (- (car cartesian) (car offset))
+		   (- (cdr cartesian) (cdr offset)) size start end colour width)))
 
 
 (defun hex-draw-feature--draw-unknown (svg x y size &optional feature)
@@ -213,12 +218,14 @@ Provide BIOME to get the matching `biome-highlight-colours'."
 	(apply func `(,svg ,x, y, size, biome))
       (apply unknown-func `(,svg ,x ,y ,size ,terrain)))))
 
-(defun hex-draw-terrain-axial (svg q r size &optional canvas terrain biome)
+(defun hex-draw-terrain-axial (svg q r size &optional canvas terrain biome offset)
   "Draw a specified TERRAIN on the SVG at Q and R with SIZE.
 CANVAS is the size of the svg image, TERRAIN is the terrain to paint,
-and biome determines the highlight colour, see `hex-draw-terrain'."
-  (let ((hex-coords (hexes-axial-to-cartesian q r size (/ canvas 2))))
-	(hex-draw-terrain svg (car hex-coords) (cdr hex-coords) size
+and biome determines the highlight colour, see `hex-draw-terrain'.
+If OFFSET is non-nil and a dotted pair \='(X . Y) these are applied to the final hex."
+  (let ((hex-coords (hexes-axial-to-cartesian q r size (/ canvas 2)))
+	(offset (or offset '(0 . 0))))
+	(hex-draw-terrain svg (- (car hex-coords) (car offset)) (- (cdr hex-coords) (cdr offset)) size
 			  terrain biome)))
 
 
@@ -230,13 +237,16 @@ and biome determines the highlight colour, see `hex-draw-terrain'."
 	(apply func `(,svg ,x, y, size))
       (apply unknown-func `(,svg ,x ,y ,size ,feature)))))
 
-(defun hex-draw-feature-axial (svg q r size index &optional feature canvas)
+(defun hex-draw-feature-axial (svg q r size index &optional feature canvas offset)
   "Draw a specified FEATURE on the SVG at hex in Q, R with SIZE.
-INDEX is the nth feature this is in the hex, starting at 0."
+INDEX is the nth feature this is in the hex, starting at 0.
+OFFSET shifts the final result by a specified amount of pixels."
   ;; convert axial to x y
   (let ((feature-coords (hex-feature-axial-to-cartesian-coords
-			 q r size index feature (/ canvas 2))))
-    (hex-draw-feature svg (car feature-coords) (cdr feature-coords) size
+			 q r size index feature (/ canvas 2)))
+	(offset (or offset '(0 . 0))))
+    (hex-draw-feature svg (- (car feature-coords) (car offset))
+		      (- (cdr feature-coords) (cdr offset)) size
 		      (number-to-string index) feature))
   )
 
