@@ -4,5 +4,11 @@ An emacs package for drawing hex maps using a text file to specify each tile.
 
 Uses axial coordinates for a practically infinite canvas.
 
+* Example
+
+See the =sandbox-example.hexmap= file in =./examples/= for the source that generated the below region map.
+
+[[file:examples/sandbox-example.svg]]
+
 * References
 - https://www.redblobgames.com/grids/hexagons/
