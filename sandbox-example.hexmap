@@ -2,6 +2,7 @@
 	terrain: plains,
 	biome: temperate,
 	features: [village],
+	notes: ["Phovah"]
 	roads: [village->3, 0->village, 1->village, village->4]
 }
 0,1 {
