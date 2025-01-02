@@ -162,7 +162,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 			      size
 			      800
 			      (cdr (assoc (plist-get hex :biome) biome-colours))
-			      "black" "" offset)
+			      "black" (format "%s" (plist-get hex :axial-coords)) offset)
 	      ;; function to draw terrain
 	      (hex-draw-terrain-axial svg
 				      (car (plist-get hex :axial-coords))
