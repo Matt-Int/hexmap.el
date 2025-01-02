@@ -86,7 +86,7 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
   (svg-circle svg x y
 	      (/ size 20) :stroke-color "darkred" :fill-color "white"
 	      :stroke-width (* size (/ 3.0 80.0)))
-  (svg-text svg label :x x :y (- y (/ size 20)) :font-size (/ size 6) :text-anchor "middle"))
+  (svg-text svg (format "%s" feature) :x x :y (- y (/ size 20)) :font-size (/ size 6) :text-anchor "middle"))
 
 
 (defun hex-draw-feature--draw-lair (svg x y size)
