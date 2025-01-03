@@ -245,12 +245,14 @@
 1,-6{
 	biome: temperate,
 	terrain: marsh,
+	roads: [2->1, 1->0, 2->0],
+	rivers: [0->4, 1->4]
 }
 2,-6{
 	biome: temperate,
 	terrain: hills,
 	features: [village]
-	roads: [1->village,5->village,2->village,3->village]
+	roads: [1->village,5->village,3->village]
 }
 3,-6{
 	biome: temperate,
@@ -272,14 +274,18 @@
 1,-7{
 	biome: temperate,
 	terrain: marsh,
+	roads: [3->5, 3->1],
+	rivers: [2->3]
 }
 2,-8{
 	biome: temperate,
 	terrain: marsh,
+	roads: [4->1, 5->2]
 }
 3,-9{
 	biome: temperate,
 	terrain: forests,
+	roads: [4->1,4->3]
 }
 -1,-5{
 	biome: ocean,
@@ -350,6 +356,8 @@
 3,-8{
 	biome: temperate,
 	terrain: forests,
+	roads: [0->2, 5->0],
+	rivers: [1->4]
 }
 3,-7{
 	biome: temperate,
@@ -359,15 +367,17 @@
 2,-7{
 	biome: temperate,
 	terrain: marsh,
+	rivers: [1->4, 1->5]
 }
 2,-5{
 	biome: temperate,
 	terrain: hills,
+	roads: [0->4]
 }
 1,-4{
 	biome: temperate,
 	terrain: hills,
-	roads: [4->5]
+	roads: [4->5, 1->5]
 }
 1,-5{
 	biome: ocean,
