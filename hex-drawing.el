@@ -31,7 +31,7 @@ Optionally provide the FILL, STROKE, and LABEL for the hex."
 	(stroke (or stroke "black")))
     (svg-polygon svg (hexes-flat-corners x y size)
 		 :stroke-color stroke :fill-color fill
-		 :stroke-width (* size (/ 3.0 80.0)))
+		 :stroke-width (* size (/ 1.0 80.0)))
     (svg-text svg label :x x :y (+ y (* size 0.8)) :font-size (/ size 10) :text-anchor "middle")))
 
 
