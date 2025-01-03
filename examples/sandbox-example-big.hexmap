@@ -543,3 +543,12 @@
 	biome: temperate,
 	terrain: mountains,
 }
+
+// some other region, this hex just really screamed city to me, what with all the roads leading to it.
+4,-8{
+	biome: temperate,
+	terrain: forests,
+	features: [city],
+	notes: ["Othnilkrah"]
+	roads: [2->5, 3->city]
+}
