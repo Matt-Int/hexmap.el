@@ -362,7 +362,7 @@
 3,-7{
 	biome: temperate,
 	terrain: forests,
-	roads: [2->5,4->1]
+	roads: [4->2]
 }
 2,-7{
 	biome: temperate,
