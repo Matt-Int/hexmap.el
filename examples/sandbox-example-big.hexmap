@@ -544,6 +544,381 @@
 	terrain: mountains,
 }
 
+// Soutwestern Region
+//central arm northeast
+-4,4{
+	biome: temperate,
+	terrain: forests,
+	roads: [1->ends]
+}
+-5,5{
+	biome: temperate,
+	terrain:forests,
+}
+-6,6{
+	biome: temperate,
+	terrain:forests,
+}
+//northeast->southeast
+-3,4{
+	biome: temperate,
+	terrain: forests,
+	roads: [0->1]
+}
+-3,5{
+	biome: temperate,
+	terrain: forests,
+}
+-4,5{
+	biome: temperate,
+	terrain: forests,
+}
+// central arm north
+-6,5{
+	biome: temperate,
+	terrain: plains,
+}
+-6,4{
+	biome: temperate,
+	terrain: forests,
+}
+-6,3{
+	biome: temperate,
+	terrain: forests,	
+}
+// north->northeast
+-5,3{
+	biome: temperate,
+	terrain: forests,
+}
+-4,3{
+	biome: temperate,
+	terrain: plains,
+	roads: [2->4]
+}
+-5,4{
+	biome: temperate,
+	terrain: plains,
+	roads: [1->ends]
+}
+//central arm southeast
+-5,6{
+	biome: temperate,
+	terrain: forests,
+}
+-4,6{
+	biome: temperate,
+	terrain: forests,
+}
+-3,6{
+	biome: temperate,
+	terrain: mountains,
+}
+//southeast->south
+-4,7{
+	biome: temperate,
+	terrain: mountains,
+	features: [fort]
+}
+-5,8{
+	biome: temperate,
+	terrain: mountains,
+}
+-5,7{
+	biome: temperate,
+	terrain: forests,
+}
+//central arm south
+-6,7{
+	biome: temperate,
+	terrain: hills,
+}
+-6,8{
+	biome: ocean,
+}
+-6,9{
+	biome: temperate,
+	terrain: plains,
+}
+// south->southwest
+-7,9{
+	biome: temperate,
+	terrain: plains,
+}
+-8,9{
+	biome: temperate,
+	terrain: forests,
+}
+-7,8{
+	biome: temperate,
+	terrain: mountains,
+}
+// central arm southwest
+-7,7{
+	biome: temperate,
+	terrain: forests,
+}
+-8,8{
+	biome: temperate,
+	terrain: forests,
+}
+-9,9{
+	biome: temperate,
+	terrain: forests,
+	features: [ruins-or-relic]
+}
+// southwest->northwest
+-9,8{
+	biome: temperate,
+	terrain: plains,
+}
+-9,7{
+	biome: temperate,
+	terrain: marsh,
+	features: [lair]
+}
+-8,7{
+	biome: temperate,
+	terrain: hills,
+}
+// central arm northwest
+-7,6{
+	biome: temperate,
+	terrain: plains,
+}
+-8,6{
+	biome: temperate,
+	terrain: forests,
+	features: [lair]
+}
+-9,6{
+	biome: temperate,
+	terrain:forests,
+}
+// northwest->north
+-8,5{
+	biome: temperate,
+	terrain: plains,
+}
+-7,4{
+	biome: temperate,
+	terrain: plains,
+}
+-7,5{
+	biome: temperate,
+	terrain: forests,
+	features: [temple-or-shrine]
+}
+
+// southeastern region
+//central arm northwest
+4,0{
+	biome: temperate,
+	terrain: hills,
+}
+5,0{
+	biome: temperate,
+	terrain: mountains,
+}
+6,0{
+	biome: temperate,
+	terrain: mountains,
+}
+//northwest->north fills
+4,-1{
+	biome: temperate,
+	terrain: forests,
+}
+5,-2{
+	biome: temperate,
+	terrain: forests,
+}
+5,-1{
+	biome: ocean,
+	terrain: waves,
+}
+//central arm north
+6,-1{
+	biome: temperate,
+	terrain: mountains,
+	features: [ruins],
+}
+6,-2{
+	biome: temperate,
+	terrain: mountains,
+}
+6,-3{
+	biome: temperate,
+	terrain: hills,
+}
+//north->northeast fills
+7,-3{
+	biome: temperate,
+	terrain: mountains,
+}
+8,-3{
+	biome: temperate,
+	terrain: plains,
+}
+7,-2{
+	biome: temperate,
+	terrain: hills,
+}
+//central arm south
+6,1{
+	biome: temperate,
+	terrain: hills,
+}
+6,2{
+	biome: temperate,
+	terrain: forests,
+}
+6,3{
+	biome: temperate,
+	terrain: forests,
+}
+// south->southwest fills
+5,3{
+	biome: temperate,
+	terrain: forests,
+	features: [lair]
+}
+4,3{
+	biome: temperate,
+	terrain: plains,
+}
+5,2{
+	biome: temperate,
+	terrain: plains,
+}
+// central arm southeast
+7,0{
+	biome: temperate,
+	terrain: mountains,
+}
+8,0{
+	biome: temperate,
+	terrain: mountains,
+}
+9,0{
+	biome: ocean,
+	terrain: waves,
+}
+// southeast->south fill
+8,1{
+	biome: ocean,
+	terrain: waves,
+}
+7,2{
+	biome: temperate,
+	terrain: plains,
+}
+7,1{
+	biome: ocean,
+	terrain: waves,
+}
+// central arm northeast
+7,-1{
+	biome: temperate,
+	terrain: hills,
+}
+8,-2{
+	biome: temperate,
+	terrain: mountains,
+}
+9,-3{
+	biome: temperate,
+	terrain: mountains,
+}
+// northeast->southeast fill
+9,-2{
+	biome: temperate,
+	terrain: mountains,
+}
+9,-1{
+	biome: temperate,
+	terrain: mountains,
+}
+8,-1{
+	biome: temperate,
+	terrain: mountains,
+}
+// central arm southwest
+5,1{
+	biome: temperate,
+	terrain: mountains,
+}
+4,2{
+	biome: temperate,
+	terrain: mountains,
+}
+3,3{
+	biome: ocean,
+	terrain: waves,
+}
+// southwest->northwest fills
+3,2{
+	biome: ocean,
+	terrain: waves,
+}
+3,1{
+	biome: temperate,
+	terrain: plains,
+}
+4,1{
+	biome: temperate,
+	terrain: mountains,
+}
+
+// Northwestern region
+// southeast central arm
+-6,0{}
+-5,0{}
+-4,0{}
+//southeast->south
+-4,1{}
+-5,2{}
+-5,1{}
+// south central arm
+-6,1{}
+-6,2{}
+// south->southwest
+-7,3{}
+-8,3{}
+-7,2{}
+// southwestern central arm
+-7,1{}
+-8,2{}
+-9,3{}
+// sw->nw
+-9,2{}
+-9,1{}
+-8,1{}
+// northwestern central arm
+-7,0{}
+-8,0{}
+-9,0{}
+//nw->n
+-8,-1{}
+-7,-2{}
+-7,-1{}
+//north central arm
+-6,-1{}
+-6,-2{}
+-6,-3{}
+//n->ne
+-5,-3{}
+-4,-3{}
+-5,-2{}
+//northeastern central arm
+-5,-1{}
+-4,-2{}
+//ne->se
+-3,-2{}
+-3,-1{}
+-4,-1{}
+
+
 // some other region, this hex just really screamed city to me, what with all the roads leading to it.
 4,-8{
 	biome: temperate,
