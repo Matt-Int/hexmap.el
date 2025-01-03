@@ -235,12 +235,41 @@ Provide BIOME to get the matching `biome-highlight-colours'."
   (hex-draw-terrain--draw-tree svg (- x (* size 0.5 )) (+ y (* size 0.2 )) size biome)
   (hex-draw-terrain--draw-tree svg (+ x (* size 0.34)) (+ y (* size 0.15)) size biome))
 
+(defun hex-draw-terrain--draw-marsh (svg x y size &optional biome)
+  "SVG X Y SIZE BIOME."
+  (let ((xr (* x (/ 35.0 200)))
+	(yr (* y (/ 100.0 200)))
+	(colour (if biome (cdr (assoc biome biome-highlight-colours)) "white")))
+    (svg-path svg `((moveto ((,x . ,y)))
+		    (elliptical-arc ((,(* size (/ 50.0 80)) ,(* size (/ 100.0 80)) ,(* size (/ 30.0 80)) 0 :sweep t))))
+	      :fill "transparent" :stroke colour :relative t :stroke-width (* size (/ 4.0 80)))
+    (svg-line svg (+ x (* size (/ 9.0 80))) (- y (* size (/ 4.0 80.0)))
+	      (+ x (* size (/ 9.0 80))) (- y (* size (/ 15.0 80.)))
+	      :fill "transparent" :stroke colour :stroke-width (* size (/ 2.0 80)))
+    (svg-line svg (+ x (* size (/ 20.0 80))) (- y (* size (/ 4.0 80.0)))
+	      (+ x (* size (/ 20.0 80))) (- y (* size (/ 15.0 80.)))
+	      :fill "transparent" :stroke colour :stroke-width (* size (/ 2.0 80)))
+    (svg-line svg (+ x (* size (/ 15.0 80))) (- y (* size (/ 4.0 80.0)))
+	      (+ x (* size (/ 15.0 80))) (- y (* size (/ 15.0 80.)))
+	      :fill "transparent" :stroke colour :stroke-width (* size (/ 2.0 80)))
+    ))
+
+(defun hex-draw-terrain--draw-marshes (svg x y size &optional biome)
+  (hex-draw-terrain--draw-marsh svg x y size biome)
+  (hex-draw-terrain--draw-marsh svg (- x (* size (/ 25.0 80.0)))
+				(- y (* size (/ 15.0 80.0))) size biome)
+  (hex-draw-terrain--draw-marsh svg (- x (* size (/ 25.0 80.0)))
+				(+ y (* size (/ 15.0 80.0))) size biome)
+  )
+
+
 
 (defcustom terrain-draw-functions '((hills . hex-draw-terrain--draw-hills)
 				    (plains . hex-draw-terrain--draw-plains)
 				    (waves . hex-draw-terrain--draw-waves)
 				    (mountains . hex-draw-terrain--draw-mountains)
 				    (forests . hex-draw-terrain--draw-forests)
+				    (marsh . hex-draw-terrain--draw-marshes)
 				    (nil . hex-draw-terrain--draw-blank))
   "A list of functions for terrains and how they should be drawn."
   :group 'hexmapping)
