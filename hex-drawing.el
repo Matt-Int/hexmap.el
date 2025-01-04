@@ -120,10 +120,27 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
 		 :stroke-width (* size (/ 3.0 80.0)))
   (svg-text svg (or label "") :x x :y (- y (/ size 2)) :font-size (/ size 6) :text-anchor "middle"))
 
+(defun hex-draw-feature--draw-fort (svg x y size &optional label)
+  (let ((side-length (* size (/ 10 80.0))))
+  (svg-rectangle svg
+		 (- x (/ side-length 2.0)) (- y (/ side-length 2.0)) side-length side-length
+		 :stroke-color "black" :fill-color "white")
+  (svg-rectangle svg
+	      (- x side-length)
+	      (- y (/ side-length 1.5))
+	      (* size (/ 5.0 80.0)) (* side-length 1.2)
+	      :stroke-color "black" :fill-color "white")
+  (svg-rectangle svg
+	      (+ x (/ side-length 2))
+	      (- y (/ side-length 1.5))
+	      (* size (/ 5.0 80.0)) (* side-length 1.2)
+	      :stroke-color "black" :fill-color "white")
+  (svg-text svg (or label "") :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle")))
 
 (defcustom feature-draw-functions '((village . hex-draw-feature--draw-village)
 				    (city . hex-draw-feature--draw-city)
 				    (lair . hex-draw-feature--draw-lair)
+				    (fort . hex-draw-feature--draw-fort)
 				    (nil . hex-draw-feature--draw-unknown))
   "A list of functions for features and how they should be drawn."
   :group 'hexmapping)
