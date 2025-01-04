@@ -47,18 +47,17 @@
 0,-1{
 	biome: temperate,
 	terrain: forests,
-	rivers: [0->4,3->0,2->0]
+	rivers: [4->5,3->0,3->5]
 }
 1,-1{
 	biome: temperate,
 	terrain: marsh,
-	rivers: [3->5]
 	}
 -1,0{
 	biome: temperate,
 	terrain: plains,
 	features: [isolate]
-	rivers: [0->isolate, 1->isolate],
+	rivers: [1->isolate],
 	roads: [isolate->3]
 	}
 -1,1{
