@@ -137,6 +137,31 @@ Optionally set RIVERS to non-nil to parse rivers instead."
     (goto-char current)
     result))
 
+(defcustom biome-terrain-colours '((arctic . ((nil . "pink")
+					      (mountains . "white")))
+				   (temperate . ((nil . "pink")
+						 (plains . "#659E20")
+						 (forests . "#309E20")
+						 (hills . "#009A44")
+						 (marsh . "#1E915F")))
+				   (tundra . ((nil . "pink")
+					      (plains . "#9A9E20")))
+				   (arid . ((nil . "pink")
+					    (plains . "#9A9E20")))
+				   (tropical . ((nil . "pink")
+						(plains . "#9A9E20")))
+				   (ocean . ((nil . "pink")))
+				   (lake . ((nil . "#007396")))
+				   (nil . ((nil . "pink"))))
+  "A list of hex colours to be used for different biomes."
+  :group 'hexmapping)
+
+(defun hexmap-hex-colour (biome terrain)
+  "Given a BIOME and TERRAIN, return the appropriate fill colour."
+  (or (cdr (assoc terrain (cdr (assoc biome biome-terrain-colours))))
+      (cdr (assoc biome biome-colours))
+      "purple"))
+
 (defun hexmap-visualise-buffer ()
   "Parse the current buffer and produces an SVG."
   (interactive)
@@ -163,7 +188,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 			      (cdr (plist-get hex :axial-coords))
 			      size
 			      800
-			      (cdr (assoc (plist-get hex :biome) biome-colours))
+			      (hexmap-hex-colour (plist-get hex :biome) (plist-get hex :terrain))
 			      "black" (format "%s" (plist-get hex :axial-coords)) offset)
 	      ;; function to draw terrain
 	      (hex-draw-terrain-axial svg
