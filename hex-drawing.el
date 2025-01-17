@@ -106,6 +106,22 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
 		 :stroke-width (* size (/ 3.0 80.0)))
   (svg-text svg (or label "") :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
 
+(defun hex-draw-feature--draw-market-village (svg x y size &optional label)
+  "Draw a market village icon on SVG at X, Y with specified SIZE."
+  (svg-rectangle svg
+		 (- x (/ (/ size 5) 2))
+		 (- y (/ (/ size 5) 2))
+		 (/ size 5) (/ size 5) :stroke-color "black" :fill-color "white"
+		 :stroke-width (* size (/ 3.0 80.0)))
+  (svg-line svg
+	    (- x (/ (/ size 5) 2))
+	    (- y (/ (/ size 5) 2))
+	    (+ x (/ (/ size 5) 2))
+	    (+ y (/ (/ size 5) 2))
+	    :stroke-color "black" :stroke-width (* size (/ 3.0 80.0)))
+  (svg-text svg (or label "") :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
+
+
 (defun hex-draw-feature--draw-city (svg x y size &optional label)
   "Draw a city icon on SVG at X, Y with specified SIZE."
   (svg-rectangle svg
@@ -138,6 +154,7 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
   (svg-text svg (or label "") :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle")))
 
 (defcustom feature-draw-functions '((village . hex-draw-feature--draw-village)
+				    (market-village . hex-draw-feature--draw-market-village)
 				    (city . hex-draw-feature--draw-city)
 				    (lair . hex-draw-feature--draw-lair)
 				    (fort . hex-draw-feature--draw-fort)
