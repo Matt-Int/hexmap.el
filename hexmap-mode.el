@@ -267,25 +267,26 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 	(hex-draw-axial svg (- i)    j  (* size 6) 800 "transparent" "black")
 	(hex-draw-axial svg    i  (- j) (* size 6) 800 "transparent" "black")
 	(hex-draw-axial svg    i     j  (* size 6) 800 "transparent" "black")))
-    (with-current-buffer (get-buffer-create "*Hexmap: SVG*")
-      (fundamental-mode)
-      (erase-buffer)
-      (svg-print svg)
-      (image-mode)
-      (display-buffer "*Hexmap: SVG*"))))
+    svg))
 
 (defun hexmap-visualise-dwim ()
   "Visualises the current buffer if nothing is selected.
 If mark is active then only visualise the marked region."
   (interactive)
-  (if (use-region-p)
-      (let ((start (use-region-beginning))
-	    (end (use-region-end)))
-	(let ((hexmap (buffer-substring start end)))
-	  (with-temp-buffer
-	    (insert hexmap)
-	    (hexmap-visualise-buffer))))
-    (hexmap-visualise-buffer)))
+  (let ((svg (if (use-region-p)
+		 (let ((start (use-region-beginning))
+		       (end (use-region-end)))
+		   (let ((hexmap (buffer-substring start end)))
+		     (with-temp-buffer
+		       (insert hexmap)
+		       (hexmap-visualise-buffer))))
+	       (hexmap-visualise-buffer))))
+    (with-current-buffer (get-buffer-create "*Hexmap: SVG Visualisation*")
+      (fundamental-mode)
+      (erase-buffer)
+      (svg-print svg)
+      (image-mode)
+      (display-buffer "*Hexmap: SVG Visualisation*"))))
 
 (defvar hexmap-mode-syntax-table
   (let ((st (make-syntax-table)))
@@ -355,6 +356,15 @@ If mark is active then only visualise the marked region."
   (setq-local indent-line-function #'hexmap-mode-indent-line)
   (setq-local tab-width 4)
   )
+
+;;;###autoload
+(defun org-babel-execute:hexmap (body params)
+  "Execute a block of hexmap code with org-babel."
+  (with-temp-buffer
+    (insert body)
+    (let ((svg (hexmap-visualise-buffer)))
+      (nth 4 (svg-image svg)))))
+
 
 (add-to-list 'auto-mode-alist '("\\.hexmap" . hexmap-mode))
 (provide 'hexmap-mode)

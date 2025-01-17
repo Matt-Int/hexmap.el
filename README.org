@@ -4,6 +4,18 @@ An emacs package for drawing hex maps using a text file to specify each tile.
 
 Uses axial coordinates to avoid running into corners while mapping out a world.
 
+#+begin_src hexmap :results file :file ./examples/single-hex.svg
+  0,0 {
+          biome:temperate,
+          terrain: plains,
+          features: [village],
+          roads:[1->village,village->3, 4->5],
+  }
+#+end_src
+
+#+RESULTS:
+[[file:./examples/single-hex.svg]]
+
 * Example
 
 See the =sandbox-example.hexmap= file in =./examples/= for the source that generated the below region map.
