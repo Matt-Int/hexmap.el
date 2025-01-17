@@ -4,7 +4,7 @@ An emacs package for drawing hex maps using a text file to specify each tile.
 
 Uses axial coordinates to avoid running into corners while mapping out a world.
 
-#+begin_src hexmap :results file :file examples/single-hex.svg
+#+begin_src hexmap :results file :file examples/single-hex.svg :exports both
   0,0 {
           biome:temperate,
           terrain: plains,
