@@ -2,7 +2,7 @@
 
 An emacs package for drawing hex maps using a text file to specify each tile.
 
-Uses axial coordinates for a practically infinite canvas.
+Uses axial coordinates to avoid running into corners while mapping out a world.
 
 * Example
 
