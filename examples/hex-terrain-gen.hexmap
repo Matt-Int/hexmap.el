@@ -66,7 +66,7 @@
 	roads: [0->3]
 	}
 1,0{
-	biome: ocean,
+	biome: lake,
 }
 -2,3{
 	biome: temperate,
@@ -94,9 +94,9 @@
 2,-1{
 	biome: temperate,
 	terrain: marsh,
-	features: [village],
+	features: [market-village],
 	notes: ["Mkt Village"],
-	roads: [3->village, 1->village, 2->village]
+	roads: [3->market-village, 1->market-village, 2->market-village]
 }
 -2,0{
 	biome: temperate,
@@ -116,12 +116,12 @@
 -1,-1{
 	biome: temperate,
 	terrain: plains,
-	rivers: [1->0,3->0]
+	rivers: [2->0]
 }
 0,-2{
 	biome: temperate,
 	terrain: marsh,
-	rivers: [3->2, 3->4]
+	rivers: [3->2]
 }
 -3,1{
 	biome: temperate,
@@ -190,6 +190,8 @@
 	biome: temperate,
 	terrain: plains,
 	}
+
+
 //northern region
 0,-6{
 	biome: temperate,
@@ -201,26 +203,3 @@
 	terrain: mountains,
 }
 
-// Generalised
-// northern axis
-0,-2{}
-0,-1{}
-0,0{}
-//southern axis
-0,1{}
-0,2{}
-0,3{}
-//sw axis
--1,0{}
--2,0{}
-//ne axis
-1,0{}
-2,0{}
-3,0{}
-// sw axis
--1,1{}
--2,2{}
--3,3{}
-//ne axis
-1,-1{}
-2,-2{}
