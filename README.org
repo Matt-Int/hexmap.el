@@ -10,5 +10,9 @@ See the =sandbox-example.hexmap= file in =./examples/= for the source that gener
 
 [[file:examples/sandbox-example.svg]]
 
+Also see the =hex-terrain-gen.hexmap= file in the examples folder for the source to generate the below map.
+
+[[file:examples/hex-terrain-gen.svg]]
+
 * References
 - https://www.redblobgames.com/grids/hexagons/
