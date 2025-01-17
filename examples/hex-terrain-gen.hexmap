@@ -192,14 +192,14 @@
 	}
 
 
-//northern region
-0,-6{
-	biome: temperate,
-	terrain: plains,
-}
-//southern region
-0,6{
-	biome: temperate,
-	terrain: mountains,
-}
+// //northern region
+// 0,-6{
+// 	biome: temperate,
+// 	terrain: plains,
+// }
+// //southern region
+// 0,6{
+// 	biome: temperate,
+// 	terrain: mountains,
+// }
 
