@@ -2,7 +2,7 @@
 
 An emacs package for drawing hex maps using a text file to specify each tile.
 
-Uses axial coordinates to avoid running into corners while mapping out a world.
+Uses axial coordinates to avoid running into corners while mapping out a world. Each hex is specified with a combination of axial coordinates (x,y) followed by a block of specifiers, e.g. biome, terrain, features, and roads. The latter two are lists as each hex can support multiple ones.
 
 #+begin_src hexmap :results file :file examples/single-hex.svg :exports both
   0,0 {
@@ -16,7 +16,7 @@ Uses axial coordinates to avoid running into corners while mapping out a world.
 #+RESULTS:
 [[file:examples/single-hex.svg]]
 
-* Example
+* Examples
 
 See the =sandbox-example.hexmap= file in =./examples/= for the source that generated the below region map.
 
