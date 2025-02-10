@@ -282,9 +282,13 @@ Provide BIOME to get the matching `biome-highlight-colours'."
 (defun hex-draw-terrain--draw-forests (svg x y size &optional biome)
   "Draw a mountains terrain symbol on SVG at X,Y at given SIZE.
 Provide BIOME to get the matching `biome-highlight-colours'."
-  (hex-draw-terrain--draw-tree svg x y size biome)
-  (hex-draw-terrain--draw-tree svg (- x (* size 0.5 )) (+ y (* size 0.2 )) size biome)
-  (hex-draw-terrain--draw-tree svg (+ x (* size 0.34)) (+ y (* size 0.15)) size biome))
+  (let ((draw-function (if (or (eq biome 'tundra) (eq biome 'arctic))
+			   #'hex-draw-terrain--draw-fir
+			 #'hex-draw-terrain--draw-tree)))
+    (apply draw-function `(,svg ,x ,y ,size ,biome))
+    (apply draw-function `(,svg ,(- x (* size 0.5 )) ,(+ y (* size 0.2 )) ,size ,biome))
+    (apply draw-function `(,svg ,(+ x (* size 0.34)) ,(+ y (* size 0.15)) ,size ,biome)))
+)
 
 (defun hex-draw-terrain--draw-marsh (svg x y size &optional biome)
   "SVG X Y SIZE BIOME."
