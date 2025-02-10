@@ -262,6 +262,23 @@ Provide BIOME to get the matching `biome-highlight-colours'."
 		:stroke-width (* size (/ 3.0 80.0)))
     ))
 
+(defun hex-draw-terrain--draw-fir (svg x y size &optional biome)
+  "Draw a fir tree terrain symbol on SVG at X,Y at given SIZE.
+Provide BIOME to get the matching `biome-highlight-colours'."
+  (let ((x1 x)
+	(x2 (+ x (* size 0.2)))
+	(x3 (+ x (* size 0.4)))
+	(y2 (- y (* size 0.45)))
+	(colour (if biome (cdr (assoc biome biome-highlight-colours)) "white")))
+    (svg-line svg x y2 x y :stroke-color colour :stroke-width (* size (/ 3.0 80.0)))
+    (svg-polygon svg `((,(+ x (* size 0.1)) . ,(- y (* size 0.15)))
+		       (,x . ,y2)
+		       (,(- x (* size 0.1)) . ,(- y (* size 0.15))))
+		 :stroke-color colour :stroke-width (* size (/ 3.0 80.0))
+		 :fill-color "white")
+    ))
+
+
 (defun hex-draw-terrain--draw-forests (svg x y size &optional biome)
   "Draw a mountains terrain symbol on SVG at X,Y at given SIZE.
 Provide BIOME to get the matching `biome-highlight-colours'."
