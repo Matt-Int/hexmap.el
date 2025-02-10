@@ -248,7 +248,7 @@ Provide BIOME to get the matching `biome-highlight-colours'."
   (hex-draw-terrain--draw-mountain svg (- x (* size 0.34)) (+ y (* size 0.15)) size biome))
 
 (defun hex-draw-terrain--draw-tree (svg x y size &optional biome)
-  "Draw a wave terrain symbol on SVG at X,Y at given SIZE.
+  "Draw a desidious tree terrain symbol on SVG at X,Y at given SIZE.
 Provide BIOME to get the matching `biome-highlight-colours'."
   (let ((x1 x)
 	(x2 (+ x (* size 0.2)))
