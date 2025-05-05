@@ -19,7 +19,7 @@
 
 (defcustom biome-colours '((arctic . "white")
 			   (temperate . "green")
-			   (tundra . "darkgreen")
+			   (taiga . "darkgreen")
 			   (arid . "#c2b280")
 			   (tropical . "#00755e")
 			   (ocean . "blue")
@@ -31,7 +31,7 @@
 
 (defcustom biome-highlight-colours '((arctic . "gray")
 				     (temperate . "darkgreen")
-				     (tundra . "green")
+				     (taiga . "green")
 				     (arid . "#c29180")
 				     (tropical . "#004235")
 				     (ocean . "lightblue")
@@ -144,7 +144,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 						 (forests . "#309E20")
 						 (hills . "#009A44")
 						 (marsh . "#1E915F")))
-				   (tundra . ((nil . "pink")
+				   (taiga . ((nil . "pink")
 					      (plains . "#9A9E20")))
 				   (arid . ((nil . "pink")
 					    (plains . "#9A9E20")))
