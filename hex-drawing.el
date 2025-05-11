@@ -121,6 +121,19 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
 	    :stroke-color "black" :stroke-width (* size (/ 3.0 80.0)))
   (svg-text svg (or label "") :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
 
+(defun hex-draw-feature--draw-town (svg x y size &optional label)
+  "Draw a town icon on SVG at X, Y with specified SIZE."
+  (svg-rectangle svg
+		 (- x (/ (/ size 5) 2))
+		 (- y (/ (/ size 5) 2))
+		 (/ size 5) (/ size 5) :stroke-color "black" :fill-color "white"
+		 :stroke-width (* size (/ 3.0 80.0)))
+  (svg-circle svg x y
+	      (/ size 20) :stroke-color "black" :fill-color "white"
+	      :stroke-width (* size (/ 3.0 80.0)))
+  (svg-text svg (or label "") :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
+
+
 
 (defun hex-draw-feature--draw-city (svg x y size &optional label)
   "Draw a city icon on SVG at X, Y with specified SIZE."
@@ -155,6 +168,7 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
 
 (defcustom feature-draw-functions '((village . hex-draw-feature--draw-village)
 				    (market-village . hex-draw-feature--draw-market-village)
+				    (town . hex-draw-feature--draw-town)
 				    (city . hex-draw-feature--draw-city)
 				    (lair . hex-draw-feature--draw-lair)
 				    (fort . hex-draw-feature--draw-fort)
