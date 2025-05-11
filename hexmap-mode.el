@@ -150,7 +150,8 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 					    (plains . "#9A9E20")))
 				   (tropical . ((nil . "pink")
 						(plains . "#9A9E20")))
-				   (ocean . ((nil . "pink")))
+				   (ocean . ((shallows . "#007396")
+					     (nil . "pink")))
 				   (lake . ((nil . "#007396")))
 				   (nil . ((nil . "pink"))))
   "A list of hex colours to be used for different biomes."
