@@ -32,7 +32,8 @@ Optionally provide the FILL, STROKE, and LABEL for the hex."
     (svg-polygon svg (hexes-flat-corners x y size)
 		 :stroke-color stroke :fill-color fill
 		 :stroke-width (* size (/ 1.0 80.0)))
-    (svg-text svg label :x x :y (+ y (* size 0.8)) :font-size (/ size 10) :text-anchor "middle" :stroke "black")))
+    (svg-text svg label :x x :y (+ y (* size 0.8)) :font-size (/ size 10)
+	      :text-anchor "middle")))
 
 
 (defun hex-draw-axial (svg q r size &optional canvas fill stroke label offset)
