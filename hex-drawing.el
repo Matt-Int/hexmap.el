@@ -31,7 +31,8 @@ Optionally provide the FILL, STROKE, and LABEL for the hex."
 	(stroke (or stroke "black")))
     (svg-polygon svg (hexes-flat-corners x y size)
 		 :stroke-color stroke :fill-color fill
-		 :stroke-width (* size (/ 1.0 80.0)))
+		 :stroke-width (* size (/ 1.0 80.0))
+		 :style (if (equal fill "transparent") "fill:none" ""))
     (svg-text svg label :x x :y (+ y (* size 0.8)) :font-size (/ size 10)
 	      :text-anchor "middle")))
 
@@ -67,7 +68,9 @@ Optionally, add in the COLOUR and WIDTH of the road segment."
 	(road-1 (hex-road-coords x y size start end)))
     (svg-path svg `((moveto (,(car road-1)))
 		(smooth-curveto ,(cdr road-1)))
-	  :stroke colour :fill "transparent" :stroke-width (* size (/ width 80.0)))))
+	      :stroke colour :fill "transparent"
+	      :stroke-width (* size (/ width 80.0))
+	      :style "fill:none")))
 
 (defun hex-draw-axial-road (svg q r size start end &optional center colour width offset)
   "Use Q and R axial coordinates to draw a road on an SVG hex with a given SIZE.
@@ -154,17 +157,20 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
   (let ((side-length (* size (/ 10 80.0))))
   (svg-rectangle svg
 		 (- x (/ side-length 2.0)) (- y (/ side-length 2.0)) side-length side-length
-		 :stroke-color "black" :fill-color "white")
+		 :stroke-color "black" :fill-color "white"
+		 :stroke-width (* size (/ 3.0 80.0)))
   (svg-rectangle svg
 	      (- x side-length)
 	      (- y (/ side-length 1.5))
 	      (* size (/ 5.0 80.0)) (* side-length 1.2)
-	      :stroke-color "black" :fill-color "white")
+	      :stroke-color "black" :fill-color "white"
+	      :stroke-width (* size (/ 3.0 80.0)))
   (svg-rectangle svg
 	      (+ x (/ side-length 2))
 	      (- y (/ side-length 1.5))
 	      (* size (/ 5.0 80.0)) (* side-length 1.2)
-	      :stroke-color "black" :fill-color "white")
+	      :stroke-color "black" :fill-color "white"
+	      :stroke-width (* size (/ 3.0 80.0)))
   (svg-text svg (or label "") :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle")))
 
 (defcustom feature-draw-functions '((village . hex-draw-feature--draw-village)
@@ -190,16 +196,19 @@ Provide BIOME to get the matching `biome-highlight-colours'."
 	(colour (if biome (cdr (assoc biome biome-highlight-colours)) "white")))
     (svg-path svg `((moveto ((,x . ,y)))
 		    (elliptical-arc ((,(* size (/ 35.0 80)) ,(* size (/ 100.0 80)) ,(* size (/ 40.0 80)) 0 :sweep t))))
-	      :fill "transparent" :stroke colour :relative t :stroke-width (* size (/ 4.0 80)))
+	      :fill "transparent" :stroke colour :relative t :stroke-width (* size (/ 4.0 80))
+	      :style "fill:none")
     (svg-path svg `((moveto ((,x . ,y)))
 		    (moveto ((,(* size (/ -20.0 80)) . ,(* size (/ -20.0 80)))) :relative t)
 		    (elliptical-arc ((,(* size (/ 35.0 80)) ,(* size (/ 100.0 80)) ,(* size (/ 40.0 80)) 0 :sweep t))))
-	      :fill "transparent" :stroke colour :relative t :stroke-width (* size (/ 4.0 80)))
+	      :fill "transparent" :stroke colour :relative t :stroke-width (* size (/ 4.0 80))
+	      :style "fill:none")
     (svg-path svg `((moveto ((,x . ,y)))
 		    (moveto ((,(* size (/ -50.0 80)) . 0)) :relative t)
 		    (elliptical-arc ((,(* size (/ 35.0 80)) ,(* size (/ 100.0 80)) ,(* size (/ 40.0 80))
 				      ,(* size (/ -5.0 80)) :sweep t))))
-	      :fill "transparent" :stroke colour :relative t :stroke-width (* size (/ 4.0 80)))))
+	      :fill "transparent" :stroke colour :relative t :stroke-width (* size (/ 4.0 80))
+	      :style "fill:none")))
 
 (defun hex-draw-terrain--draw-plains (svg x y size &optional biome)
   "Draw a plains terrain symbol on SVG at X,Y at given SIZE.
@@ -312,16 +321,20 @@ Provide BIOME to get the matching `biome-highlight-colours'."
 	(colour (if biome (cdr (assoc biome biome-highlight-colours)) "white")))
     (svg-path svg `((moveto ((,x . ,y)))
 		    (elliptical-arc ((,(* size (/ 50.0 80)) ,(* size (/ 100.0 80)) ,(* size (/ 30.0 80)) 0 :sweep t))))
-	      :fill "transparent" :stroke colour :relative t :stroke-width (* size (/ 4.0 80)))
+	      :fill "transparent" :stroke colour :relative t :stroke-width (* size (/ 4.0 80))
+	      :style "fill:none")
     (svg-line svg (+ x (* size (/ 9.0 80))) (- y (* size (/ 4.0 80.0)))
 	      (+ x (* size (/ 9.0 80))) (- y (* size (/ 15.0 80.)))
-	      :fill "transparent" :stroke colour :stroke-width (* size (/ 2.0 80)))
+	      :fill "transparent" :stroke colour :stroke-width (* size (/ 2.0 80))
+	      :style "fill:none")
     (svg-line svg (+ x (* size (/ 20.0 80))) (- y (* size (/ 4.0 80.0)))
 	      (+ x (* size (/ 20.0 80))) (- y (* size (/ 15.0 80.)))
-	      :fill "transparent" :stroke colour :stroke-width (* size (/ 2.0 80)))
+	      :fill "transparent" :stroke colour :stroke-width (* size (/ 2.0 80))
+	      :style "fill:none")
     (svg-line svg (+ x (* size (/ 15.0 80))) (- y (* size (/ 4.0 80.0)))
 	      (+ x (* size (/ 15.0 80))) (- y (* size (/ 15.0 80.)))
-	      :fill "transparent" :stroke colour :stroke-width (* size (/ 2.0 80)))
+	      :fill "transparent" :stroke colour :stroke-width (* size (/ 2.0 80))
+	      :style "fill:none")
     ))
 
 (defun hex-draw-terrain--draw-marshes (svg x y size &optional biome)
