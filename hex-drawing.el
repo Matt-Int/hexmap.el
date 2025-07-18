@@ -84,7 +84,8 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
 
 
 (defun hex-draw-feature--draw-unknown (svg x y size &optional feature label)
-  "Draw a generic feature icon on SVG at X, Y with specified SIZE."
+  "Draw a generic feature icon on SVG at X, Y with specified SIZE.
+An optional FEATURE and LABEL can be provided to add text to the hex."
   (if feature
       (message (format "Feature: %s does not have a draw-function" feature)))
   (svg-circle svg x y
@@ -95,14 +96,16 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
 
 
 (defun hex-draw-feature--draw-lair (svg x y size &optional label)
-  "Draw a generic feature icon on SVG at X, Y with specified SIZE."
+  "Draw a generic feature icon on SVG at X, Y with specified SIZE.
+An optional LABEL can be provided to name the feature."
   (svg-circle svg x y
 	      (/ size 20) :stroke-color "darkred" :fill-color "black"
 	      :stroke-width (* size (/ 3.0 80.0)))
   (svg-text svg (or label "") :x x :y (- y (/ size 20)) :font-size (/ size 6) :text-anchor "middle"))
 
 (defun hex-draw-feature--draw-village (svg x y size &optional label)
-  "Draw a village icon on SVG at X, Y with specified SIZE."
+  "Draw a village icon on SVG at X, Y with specified SIZE.
+An optional LABEL can be provided to name the feature."
   (svg-rectangle svg
 		 (- x (/ (/ size 5) 2))
 		 (- y (/ (/ size 5) 2))
@@ -111,7 +114,8 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
   (svg-text svg (or label "") :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
 
 (defun hex-draw-feature--draw-market-village (svg x y size &optional label)
-  "Draw a market village icon on SVG at X, Y with specified SIZE."
+  "Draw a market village icon on SVG at X, Y with specified SIZE.
+An optional LABEL can be provided to name the feature."
   (svg-rectangle svg
 		 (- x (/ (/ size 5) 2))
 		 (- y (/ (/ size 5) 2))
@@ -126,7 +130,8 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
   (svg-text svg (or label "") :x x :y (- y (/ size 5)) :font-size (/ size 6) :text-anchor "middle"))
 
 (defun hex-draw-feature--draw-town (svg x y size &optional label)
-  "Draw a town icon on SVG at X, Y with specified SIZE."
+  "Draw a town icon on SVG at X, Y with specified SIZE.
+An optional LABEL can be provided to name the feature."
   (svg-rectangle svg
 		 (- x (/ (/ size 5) 2))
 		 (- y (/ (/ size 5) 2))
@@ -140,7 +145,8 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
 
 
 (defun hex-draw-feature--draw-city (svg x y size &optional label)
-  "Draw a city icon on SVG at X, Y with specified SIZE."
+  "Draw a city icon on SVG at X, Y with specified SIZE.
+An optional LABEL can be provided to name the feature."
   (svg-rectangle svg
 		 (- x (/ (/ size 2) 2))
 		 (- y (/ (/ size 2) 2))
@@ -154,6 +160,9 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
   (svg-text svg (or label "") :x x :y (- y (/ size 2)) :font-size (/ size 6) :text-anchor "middle"))
 
 (defun hex-draw-feature--draw-fort (svg x y size &optional label)
+    "Draw a fort icon on SVG at X, Y with specified SIZE.
+An optional LABEL can be provided to name the feature."
+
   (let ((side-length (* size (/ 10 80.0))))
   (svg-rectangle svg
 		 (- x (/ side-length 2.0)) (- y (/ side-length 2.0)) side-length side-length
@@ -315,7 +324,8 @@ Provide BIOME to get the matching `biome-highlight-colours'."
 )
 
 (defun hex-draw-terrain--draw-marsh (svg x y size &optional biome)
-  "SVG X Y SIZE BIOME."
+  "Draw a marsh terrain symbol on SVG at X,Y at given SIZE.
+Provide BIOME to get the matching `biome-highlight-colours'."
   (let ((xr (* x (/ 35.0 200)))
 	(yr (* y (/ 100.0 200)))
 	(colour (if biome (cdr (assoc biome biome-highlight-colours)) "white")))
@@ -338,6 +348,8 @@ Provide BIOME to get the matching `biome-highlight-colours'."
     ))
 
 (defun hex-draw-terrain--draw-marshes (svg x y size &optional biome)
+  "Draw a marshes terrain symbol on SVG at X,Y at given SIZE.
+Provide BIOME to get the matching `biome-highlight-colours'."
   (hex-draw-terrain--draw-marsh svg x y size biome)
   (hex-draw-terrain--draw-marsh svg (- x (* size (/ 25.0 80.0)))
 				(- y (* size (/ 15.0 80.0))) size biome)
@@ -377,7 +389,7 @@ If OFFSET is non-nil and a dotted pair \='(X . Y) these are applied to the final
 
 
 (defun hex-draw-feature (svg x y size label &optional feature)
-  "Draw a specified FEATURE on the SVG at X and Y with SIZE."
+  "Draw a specified FEATURE on the SVG at X and Y with SIZE with the provided LABEL."
   (let ((func (cdr (assoc feature feature-draw-functions)))
 	(unknown-func (cdr (assoc 'nil feature-draw-functions))))
     (if func

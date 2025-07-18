@@ -70,6 +70,9 @@ then get that point using the seeded random offset"
       (,x ,y ,(car midpoint-end) ,(cdr midpoint-end)))))
 
 (defun hex-feature-offset (q r &optional feature index)
+  "Offset a FEATURE in hex Q, R based on its INDEX.
+If INDEX is nil or 0, then it will be in the center of the hex.
+This is only for instances where a single hex would have more than one FEATURE."
   (if (and index (> index 0))
       (let ((offset-direction (degrees-to-radians
 			       (random-with-seed
@@ -79,6 +82,9 @@ then get that point using the seeded random offset"
     ))
 
 (defun hex-feature-axial-to-cartesian-coords (q r size index &optional feature center)
+  "Convert a FEATURE's Q R coordinates into cartesian based on the SIZE and INDEX.
+See `hex-feature-offset' for details on INDEX.
+See `hex-axial-to-cartesian' for details on CENTER."
   (let ((coords (hexes-axial-to-cartesian q r size center))
 	(offset (hex-feature-offset q r feature index)))
     (let ((offset-coords `(,(+ (car coords) (* (car offset) (/ size 1.5))) .

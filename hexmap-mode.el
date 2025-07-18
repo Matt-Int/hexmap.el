@@ -360,7 +360,7 @@ If mark is active then only visualise the marked region."
 
 ;;;###autoload
 (defun org-babel-execute:hexmap (body params)
-  "Execute a block of hexmap code with org-babel."
+  "Execute a block of hexmap code with org-babel using the BODY and PARAMS."
   (with-temp-buffer
     (insert body)
     (let ((svg (hexmap-visualise-buffer)))
