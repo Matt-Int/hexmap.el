@@ -86,8 +86,6 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
 (defun hex-draw-feature--draw-unknown (svg x y size &optional feature label)
   "Draw a generic feature icon on SVG at X, Y with specified SIZE.
 An optional FEATURE and LABEL can be provided to add text to the hex."
-  (if feature
-      (message (format "Feature: %s does not have a draw-function" feature)))
   (svg-circle svg x y
 	      (/ size 20) :stroke-color "darkred" :fill-color "white"
 	      :stroke-width (* size (/ 3.0 80.0)))
@@ -194,8 +192,7 @@ An optional LABEL can be provided to name the feature."
 
 (defun hex-draw-terrain--draw-blank (svg x y size &optional terrain)
   "Draw no TERRAIN on SVG at X, Y with given SIZE.
-This function does nothing on purpose and just takes the appropriate input."
-  (message "Terrain: %s does not have a draw-function" terrain))
+This function does nothing on purpose and just takes the appropriate input.")
 
 (defun hex-draw-terrain--draw-hills (svg x y size &optional biome)
   "Draw a hill terrain symbol on SVG at X,Y at given SIZE.

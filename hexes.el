@@ -109,7 +109,6 @@ HEXES-COORDINATES should be a dot-pair list of \='((Q . R) (Q . R)) etc.."
 HEXES-COORDINATES should be a dot-pair list of \='((Q . R) (Q . R)) etc.."
   (let ((qs (mapcar #'car hexes-coordinates))
 	(rs (mapcar #'cdr hexes-coordinates)))
-    (message "qs: %s" qs)
     `(,(round (/ (apply #'+ qs) (float (length qs))))
       . ,(round (/ (apply #'+ rs) (float (length rs))))
       )))
