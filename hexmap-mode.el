@@ -167,35 +167,36 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   "Parse the current buffer and produces an SVG."
   (interactive)
   (let ((map (hexmap-parse-buffer))
-	(svg (svg-create 800 800))
-	(size 60.0)
+	(svg nil)
+	(canvas-size 1920.0)
 	(feature-index-master 0)
 	(offset))
     (let ((boundary (hexes-boundaries (mapcar #'(lambda (hex) (plist-get hex :axial-coords)) map)))
 	  (center (hexes-center (mapcar #'(lambda (hex) (plist-get hex :axial-coords)) map))))
-      (setq size (/ 400.0 (* (1+ boundary) 2)))
+      (setq size (/ (/ canvas-size 1.8) (* (1+ boundary) 2)))
       (setq offset (hexes-axial-to-cartesian (car center) (cdr center) size))
+      (setq svg (svg-create canvas-size canvas-size))
       )
     (dolist (i (number-sequence 0 10))
       (dolist (j (number-sequence 0 10))
-	(hex-draw-axial svg (- i) (- j) size 800 "transparent" "black")
-	(hex-draw-axial svg (- i)    j  size 800 "transparent" "black")
-	(hex-draw-axial svg    i  (- j) size 800 "transparent" "black")
-	(hex-draw-axial svg    i     j  size 800 "transparent" "black")))
+	(hex-draw-axial svg (- i) (- j) size canvas-size "transparent" "black")
+	(hex-draw-axial svg (- i)    j  size canvas-size "transparent" "black")
+	(hex-draw-axial svg    i  (- j) size canvas-size "transparent" "black")
+	(hex-draw-axial svg    i     j  size canvas-size "transparent" "black")))
     (mapc #'(lambda (hex)
 	      ;; function to draw main hex here
 	      (hex-draw-axial svg
 			      (car (plist-get hex :axial-coords))
 			      (cdr (plist-get hex :axial-coords))
 			      size
-			      800
+			      canvas-size
 			      (hexmap-hex-colour (plist-get hex :biome) (plist-get hex :terrain))
 			      "black" (format "%s" (plist-get hex :axial-coords)) offset)
 	      ;; function to draw terrain
 	      (hex-draw-terrain-axial svg
 				      (car (plist-get hex :axial-coords))
 				      (cdr (plist-get hex :axial-coords))
-				      size 800
+				      size canvas-size
 				      (plist-get hex :terrain)
 				      (plist-get hex :biome)
 				      offset)
@@ -218,7 +219,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 					       (cdr (plist-get hex :axial-coords))
 					       size
 					       start
-					       end 400 "blue" 3 offset))
+					       end (/ canvas-size 2) "blue" 3 offset))
 			)
 		    (plist-get hex :rivers))
 	      ;; function to draw roads here
@@ -240,7 +241,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 					       (cdr (plist-get hex :axial-coords))
 					       size
 					       start
-					       end 400 nil nil offset))
+					       end (/ canvas-size 2) nil nil offset))
 			)
 		    (plist-get hex :roads))
 	      ;; function to draw features
@@ -252,7 +253,7 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 						  size
 						  feature-index
 						  feature
-						  800
+						  canvas-size
 						  offset
 						  (if (plist-get hex :notes)
 						      (format "(%s):%s" feature-index-master
@@ -264,10 +265,10 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 	  map)
     (dolist (i (number-sequence 0 10))
       (dolist (j (number-sequence 0 10))
-	(hex-draw-axial svg (- i) (- j) (* size 6) 800 "transparent" "black")
-	(hex-draw-axial svg (- i)    j  (* size 6) 800 "transparent" "black")
-	(hex-draw-axial svg    i  (- j) (* size 6) 800 "transparent" "black")
-	(hex-draw-axial svg    i     j  (* size 6) 800 "transparent" "black")))
+	(hex-draw-axial svg (- i) (- j) (* size 6) canvas-size "transparent" "black")
+	(hex-draw-axial svg (- i)    j  (* size 6) canvas-size "transparent" "black")
+	(hex-draw-axial svg    i  (- j) (* size 6) canvas-size "transparent" "black")
+	(hex-draw-axial svg    i     j  (* size 6) canvas-size "transparent" "black")))
     svg))
 
 (defun hexmap-visualise-dwim ()
