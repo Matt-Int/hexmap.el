@@ -1,4 +1,4 @@
-;; hexes.el --- A collection of utilities for working with hexes.
+;; hexes.el --- A collection of utilities for working with hexes. -*- lexical-binding: t -*-
 ;; Author: Mattias <mattias1126@protonmail.com>
 ;; Maintainer: Mattias <mattias1126@protonmail.com>
 ;; Keywords: hexes mapping ttrpg

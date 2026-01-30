@@ -1,4 +1,4 @@
-;; hexmap-mode.el --- A major mode for working with `.hexmap' files
+;; hexmap-mode.el --- A major mode for working with `.hexmap' files -*- lexical-binding: t -*-
 ;; Author: Mattias <mattias1126@protonmail.com>
 ;; Maintainer: Mattias <mattias1126@protonmail.com>
 ;; Keywords: hexes mapping ttrpg

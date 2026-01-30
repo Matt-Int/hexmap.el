@@ -1,4 +1,4 @@
-;;; hex-drawing.el --- Draw hexes as SVGs, for use with hexmap-mode.el
+;;; hex-drawing.el --- Draw hexes as SVGs, for use with hexmap-mode.el -*- lexical-binding: t -*-
 ;; Author: Mattias <mattias1126@protonmail.com>
 ;; Maintainer: Mattias <mattias1126@protonmail.com>
 ;; Keywords: hexes mapping ttrpg svg image
