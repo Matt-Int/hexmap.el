@@ -60,7 +60,7 @@ Example usage: \(let ((svg (svg-create 200 200)))
 	      size
 	      fill stroke label)))
 
-(defun hex-draw-road (svg x y size start end &optional colour width)
+(defun hex-draw-road (svg x y size start end &optional colour width trail)
   "Draw a road segment within a hex centered at X, Y with SIZE on SVG.
 Optionally, add in the COLOUR and WIDTH of the road segment."
   (let ((colour (or colour "brown"))
@@ -69,10 +69,11 @@ Optionally, add in the COLOUR and WIDTH of the road segment."
     (svg-path svg `((moveto (,(car road-1)))
 		(smooth-curveto ,(cdr road-1)))
 	      :stroke colour :fill "transparent"
-	      :stroke-width (* size (/ width 80.0))
+	      :stroke-dasharray (* size (if trail (/ width 20.0) 0))
+	      :stroke-width (* size (/ width 40.0))
 	      :style "fill:none")))
 
-(defun hex-draw-axial-road (svg q r size start end &optional center colour width offset)
+(defun hex-draw-axial-road (svg q r size start end &optional center colour width offset trail)
   "Use Q and R axial coordinates to draw a road on an SVG hex with a given SIZE.
 Road is specified using START and END which is 0->5 starting with 0 at top,
 and incrementing by one going clockwise.
@@ -80,7 +81,7 @@ OFFSET is used when Q:0,R:0 is no longer the center hex."
   (let ((cartesian (hexes-axial-to-cartesian q r size center))
 	(offset (or offset '(0 . 0))))
     (hex-draw-road svg (- (car cartesian) (car offset))
-		   (- (cdr cartesian) (cdr offset)) size start end colour width)))
+		   (- (cdr cartesian) (cdr offset)) size start end colour width trail)))
 
 
 (defun hex-draw-feature--draw-unknown (svg x y size &optional feature label)

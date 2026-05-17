@@ -157,6 +157,18 @@ Optionally set RIVERS to non-nil to parse rivers instead."
   "A list of hex colours to be used for different biomes."
   :group 'hexmapping)
 
+(defcustom biome-road-and-river-colours '((arctic . (:road "black" :river "turquoise"))
+					  (temperate . (:road "brown" :river "blue"))
+					  (taiga . (:road "brown" :river "lightblue"))
+					  (arid . (:road "yellow", :river "blue"))
+					  (tropical . (:road "brown" :river "cyan"))
+					  (ocean . (:road "white"))
+					  (lake . (:road "black"))
+					  (nil . (:road "brown" :river "blue")))
+  "A list of hex colours to be used for roads and rivers in different biomes."
+  :group 'hexmapping)
+
+
 (defun hexmap-hex-colour (biome terrain)
   "Given a BIOME and TERRAIN, return the appropriate fill colour."
   (or (cdr (assoc terrain (cdr (assoc biome biome-terrain-colours))))
@@ -219,7 +231,14 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 					       (cdr (plist-get hex :axial-coords))
 					       size
 					       start
-					       end (/ canvas-size 2) "blue" 3 offset))
+					       end (/ canvas-size 2) (or (plist-get
+									  (cdr
+									   (assoc
+									    (plist-get hex :biome)
+									    biome-road-and-river-colours))
+									  :river)
+									 "blue")
+					       3 offset))
 			)
 		    (plist-get hex :rivers))
 	      ;; function to draw roads here
@@ -241,7 +260,13 @@ Optionally set RIVERS to non-nil to parse rivers instead."
 					       (cdr (plist-get hex :axial-coords))
 					       size
 					       start
-					       end (/ canvas-size 2) nil nil offset))
+					       end (/ canvas-size 2)
+					       (or (plist-get
+						    (cdr (assoc (plist-get hex :biome)
+								biome-road-and-river-colours))
+						    :road)
+						   "brown")
+					       nil offset (or (member (plist-get hex :biome) '(ocean lake)))))
 			)
 		    (plist-get hex :roads))
 	      ;; function to draw features
