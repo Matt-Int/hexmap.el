@@ -26,5 +26,9 @@ Also see the =hex-terrain-gen.hexmap= file in the examples folder for the source
 
 [[file:examples/hex-terrain-gen.svg]]
 
+For a larger example see =sandbox-example-big.hexmap=.
+
+[[file:examples/sandbox-example-big.svg]]
+
 * References
 - https://www.redblobgames.com/grids/hexagons/
