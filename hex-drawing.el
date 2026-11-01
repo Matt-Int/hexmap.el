@@ -23,21 +23,23 @@ Runs \(random t) at the end to avoid reproducible numbers elsewhere."
 	(result-reseeded (random t)))
     result-degrees))
 
-(defun hex-draw (svg x y size &optional fill stroke label)
+(defun hex-draw (svg x y size &optional fill stroke label opacity)
   "Draw a hex in SVG with center of X, Y and specified SIZE.
 Optionally provide the FILL, STROKE, and LABEL for the hex."
   (let ((fill (or fill "transparent"))
 	(label (or label ""))
-	(stroke (or stroke "black")))
+	(stroke (or stroke "black"))
+	(opacity (or opacity 1)))
     (svg-polygon svg (hexes-flat-corners x y size)
 		 :stroke-color stroke :fill-color fill
 		 :stroke-width (* size (/ 1.0 80.0))
+		 :stroke-opacity opacity
 		 :style (if (equal fill "transparent") "fill:none" ""))
     (svg-text svg label :x x :y (+ y (* size 0.8)) :font-size (/ size 10)
 	      :text-anchor "middle")))
 
 
-(defun hex-draw-axial (svg q r size &optional canvas fill stroke label offset)
+(defun hex-draw-axial (svg q r size &optional canvas fill stroke label offset opacity)
   "Draw a hex on an SVG, accepts axial Q and R coordinates.
 Needs to provide the SIZE for converting to cartesian coordinates.
 CANVAS can be provided to calculate the center of 0,0.
@@ -58,7 +60,7 @@ Example usage: \(let ((svg (svg-create 200 200)))
 	      (- (+ (/ center 2) (car coords)) (car offset))
 	      (- (+ (/ center 2) (cdr coords)) (cdr offset))
 	      size
-	      fill stroke label)))
+	      fill stroke label opacity)))
 
 (defun hex-draw-road (svg x y size start end &optional colour width trail)
   "Draw a road segment within a hex centered at X, Y with SIZE on SVG.
